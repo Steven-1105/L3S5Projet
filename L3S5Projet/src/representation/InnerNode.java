@@ -19,7 +19,6 @@ public class InnerNode extends Node {
 
 	@Override
 	public Node chooseNext() {
-	  // select next node
 	  return nextNodes[0]; // returns the first node, which should actually be chosen based on logic
 	}
 

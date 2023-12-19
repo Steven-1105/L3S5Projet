@@ -15,8 +15,11 @@ public class DecisionNode extends InnerNode {
 	@Override
 	public Node chooseNext() {
 	  display();
-	  System.out.println("Make a decision (enter a number):");
-	  int decision = scanner.nextInt();
+	  int decision = 0;
+	  do{
+		  System.out.println("Make a decision (enter a number):");
+		  decision = scanner.nextInt();
+	  }while(decision < 1 && decision > nextNodes.length);
 
 	  // Decide on next node based on user input
 	  return nextNodes[decision-1];
