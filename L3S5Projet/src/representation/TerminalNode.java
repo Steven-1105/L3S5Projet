@@ -2,8 +2,8 @@ package representation;
 
 public class TerminalNode extends Node {
 	// Constructeurs
-	public TerminalNode(String description, String imagePath) {
-		super(description, imagePath);
+	public TerminalNode(String description) {
+		super(description);
 	}
 	  
 	// Méthodes

@@ -7,17 +7,17 @@ public class ChanceNode extends InnerNode {
 	private Random random;
 	
 	//Constructeurs
-	public ChanceNode(String description, String imagePath) {
-		super(description, imagePath);
+	public ChanceNode(String description) {
+		super(description);
 		this.random = new Random();
 	}
 
 	@Override
 	public Node chooseNext() {
 		display();
-		int choice = random.nextInt(nextNodes.length);
+		int choice = random.nextInt(getNextNodes().length);
 
 		// Returns a random node
-		return nextNodes[choice];
+		return getNextNodes()[choice];
 	}
 }

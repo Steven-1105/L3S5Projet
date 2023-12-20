@@ -5,9 +5,9 @@ public class InnerNode extends Node {
 	protected Node[] nextNodes;
 
 	// Constructeurs
-	public InnerNode(String description, String imagePath) {
-	  super(description, imagePath);
-	  this.nextNodes = new Node[2]; // Assuming up to 2 branches of nodes
+	public InnerNode(String description) {
+	  super(description);
+	  this.setNextNodes(new Node[2]); // Assuming up to 2 branches of nodes
 	}
 
 	// Méthodes
@@ -19,12 +19,24 @@ public class InnerNode extends Node {
 
 	@Override
 	public Node chooseNext() {
-	  return nextNodes[0]; // returns the first node, which should actually be chosen based on logic
+	  return getNextNode(0); // returns the first node, which should actually be chosen based on logic
 	}
 
 	public void setNextNode(int option, Node node) {
-	  if (option >= 0 && option < nextNodes.length) {
-		nextNodes[option] = node;
+	  if (option >= 0 && option < getNextNodes().length) {
+		getNextNodes()[option] = node;
 	  }
+	}
+
+	public Node[] getNextNodes() {
+		return nextNodes;
+	}
+
+	public void setNextNodes(Node[] nextNodes) {
+		this.nextNodes = nextNodes;
+	}
+
+	public Node getNextNode(int i) {
+		return nextNodes[i];
 	}
 }

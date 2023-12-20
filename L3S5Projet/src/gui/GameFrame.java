@@ -1,3 +1,5 @@
+package gui;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -27,11 +29,13 @@ public class GameFrame extends JFrame {
         Bgm.playMusic("music/bgm.mp3");
     }
     
+    // 更新当前窗口的图片
     public void updateBackground(ImageIcon newImage) {
+//        System.out.println("更新背景图片: " + newImage.getDescription()); // 添加调试信息
         backgroundPanel.setBackgroundImage(newImage);
         backgroundPanel.repaint();
     }
-
+    
     private class BackGroundPanel extends JPanel {
         private Image bg;
 

@@ -7,8 +7,8 @@ public class BattleNode extends InnerNode{
 	protected Enemy enemy;
 	protected PlayerCharacter player;
 
-	public BattleNode(String description, Enemy enemy, PlayerCharacter player, String imagePath){
-		super(description, imagePath);
+	public BattleNode(String description, Enemy enemy, PlayerCharacter player){
+		super(description);
 		this.enemy = enemy;
 		this.player = player;
 	}
@@ -31,7 +31,7 @@ public class BattleNode extends InnerNode{
             player.setHp(player.getHp() - enemy.getAttack());
             System.out.println("敌人Boss攻击了你，你的剩余血量：" + player.getHp());
         }
-        return player.getHp() > 0 ? nextNodes[0] : nextNodes[1];  // 假设索引 0 是胜利节点，1 是失败节点。
+        return player.getHp() > 0 ? getNextNodes()[0] : getNextNodes()[1];  // 假设索引 0 是胜利节点，1 是失败节点。
 
 	}
 }
