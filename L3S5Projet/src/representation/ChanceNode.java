@@ -7,8 +7,8 @@ public class ChanceNode extends InnerNode {
 	private Random random;
 	
 	//Constructeurs
-	public ChanceNode(String description) {
-		super(description);
+	public ChanceNode(String description, String imagePath) {
+		super(description, imagePath);
 		this.random = new Random();
 	}
 

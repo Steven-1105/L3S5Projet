@@ -10,7 +10,7 @@ public class PlayerCharacter extends PersonnageDeBase {
 
 	  //Constructeurs
 	  public PlayerCharacter (String name, Race race) {
-	    super(name, 100, 100, 20, 5, 20, race);
+	    super(name, 100, 100, 20, 10, 5, race);
 	    this.experience = 0;
 	    this.currentLevel = 1;
 	  }
@@ -99,11 +99,11 @@ public class PlayerCharacter extends PersonnageDeBase {
 
 	        //Increase stats upon leveling up
 	        //LEVEL UP change of HP/MP/ATTACK/DEFENSE/SPEED
-	        changeHP(30 * (currentLevel - 1));
-	        changeMP(50 * (currentLevel - 1));
-	        changeAttack(10 * (currentLevel - 1));
-	        changeDefense(5 * (currentLevel - 1));
-	        changeSpeed(5 * (currentLevel - 1));
+	        changeHP(10 * (currentLevel - 1));
+	        changeMP(15 * (currentLevel - 1));
+	        changeAttack(1 * (currentLevel - 1));
+	        changeDefense(1 * (currentLevel - 1));
+	        changeSpeed(1 * (currentLevel - 1));
 
 	        System.out.println("You leveled up to level " + this.currentLevel + "!");
 	  }

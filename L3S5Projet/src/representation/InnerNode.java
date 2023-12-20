@@ -5,8 +5,8 @@ public class InnerNode extends Node {
 	protected Node[] nextNodes;
 
 	// Constructeurs
-	public InnerNode(String description) {
-	  super(description);
+	public InnerNode(String description, String imagePath) {
+	  super(description, imagePath);
 	  this.nextNodes = new Node[2]; // Assuming up to 2 branches of nodes
 	}
 

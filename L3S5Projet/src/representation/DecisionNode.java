@@ -7,8 +7,8 @@ public class DecisionNode extends InnerNode {
 	private Scanner scanner;
 	
 	//Constructeurs
-	public DecisionNode(String description) {
-	  super(description);
+	public DecisionNode(String description, String imagePath) {
+	  super(description, imagePath);
 	  this.scanner = new Scanner(System.in);
 	}
 

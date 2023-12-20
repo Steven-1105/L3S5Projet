@@ -10,7 +10,6 @@ public class PersonnageDeBase {
 	protected int attack;
 	protected int defense;
 	protected int speed; 
-	protected boolean isAlive;
 	protected Race race;// Race is assumed to be an enum that you will define
 
 	//Constructeurs
@@ -21,7 +20,6 @@ public class PersonnageDeBase {
 	    this.attack = attack;
 	    this.defense = defense;
 	    this.speed = speed;
-	    this.isAlive = true;
 	    this.race = race;
 	}
 	//Méthodes
@@ -50,14 +48,13 @@ public class PersonnageDeBase {
 	           attack == that.attack &&
 	           defense == that.defense &&
 	           speed == that.speed &&
-	           isAlive == that.isAlive &&
 	           Objects.equals(name, that.name) &&
 	           race == that.race;
 	}
   
 	@Override
 	public int hashCode() {
-	    return Objects.hash(name, hp, mp, attack, defense, speed, isAlive, race);
+	    return Objects.hash(name, hp, mp, attack, defense, speed, race);
 	}
 	  
 	//Protected methods for changing attributes, which can be overridden by subclasses if necessary
@@ -129,13 +126,6 @@ public class PersonnageDeBase {
 	    this.speed = speed;
 	}
 	
-	public boolean getAlive() {
-	    return isAlive;
-	}
-	
-	public void setAlive(boolean isAlive) {
-	    this.isAlive = isAlive;
-	}
 	public Race getRace() {
 	    return race;
 	}

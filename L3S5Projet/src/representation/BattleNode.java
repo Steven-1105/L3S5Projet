@@ -7,8 +7,8 @@ public class BattleNode extends InnerNode{
 	protected Enemy enemy;
 	protected PlayerCharacter player;
 
-	public BattleNode(String description, Enemy enemy, PlayerCharacter player){
-		super(description);
+	public BattleNode(String description, Enemy enemy, PlayerCharacter player, String imagePath){
+		super(description, imagePath);
 		this.enemy = enemy;
 		this.player = player;
 	}
@@ -21,6 +21,7 @@ public class BattleNode extends InnerNode{
 	@Override
 	// 玩家和Boss轮流攻击
 	public Node chooseNext() {
+		display();
         while (player.getHp() > 0 && enemy.getHp() > 0) {
             // 玩家攻击敌人
             enemy.setHp(enemy.getHp() - player.getAttack());
