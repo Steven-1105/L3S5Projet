@@ -51,7 +51,7 @@ public class Prof_Archer implements Profession{
 			  player.setMp(player.getMp() - skillCost);
 			  System.out.println(player.name + " cost " + skillCost + "MP to use the skill, you have now " + player.getMp() + "MP.");
 			  enemy.setHp(enemy.getHp() - damage);
-			  System.out.println(player.name + " uses Arrow Storm and deals " + damage + " damage to " + enemy.getName());
+			  System.out.println(player.name + " uses Arrow Storm and deals " + damage + " damage to " + enemy.getName() + ", and his remaining HP:" + enemy.getHp());
 		  } else {
 			  System.out.println("Not enough MP to use Arrow Storm.");
 		  }

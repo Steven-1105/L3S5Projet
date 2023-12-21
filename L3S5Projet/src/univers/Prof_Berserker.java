@@ -55,7 +55,7 @@ public class Prof_Berserker implements Profession {
 	      	  player.setHp(player.getHp() - skillCost); // HP reduction
 	      	  System.out.println(player.name + " cost " + skillCost + "HP to use the skill, you have now " + player.getHp() + "HP.");
 	          enemy.setHp(enemy.getHp() - damage);
-	          System.out.println(player.name + " uses Sacrifice Attack and deals " + damage + " damage to " + enemy.getName());
+	          System.out.println(player.name + " uses Sacrifice Attack and deals " + damage + " damage to " + enemy.getName() + ", and his remaining HP:" + enemy.getHp());
 	      } else {
 	          System.out.println("Not enough Hp to use Sacrifice Attack.");
 	      }

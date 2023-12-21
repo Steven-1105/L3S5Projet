@@ -52,7 +52,7 @@ public class Prof_MagicShooter implements Profession{
 	    	  player.setMp(player.getMp() - skillCost); // MP reduction
 	    	  System.out.println(player.name + " cost " + skillCost + "MP to use the skill, you have now " + player.getMp() + "MP.");
 	          enemy.setHp(enemy.getHp() - damage);
-	          System.out.println(player.name + " uses Fireball and deals " + damage + " damage to " + enemy.getName());
+	          System.out.println(player.name + " uses Fireball and deals " + damage + " damage to " + enemy.getName() + ", and his remaining HP:" + enemy.getHp());
 	      } else {
 	          System.out.println("Not enough MP to use Fireball.");
 	      }
@@ -72,7 +72,7 @@ public class Prof_MagicShooter implements Profession{
 	    	  player.setMp(player.getMp() - skillCost); // MP reduction
 	    	  System.out.println(player.name + " cost " + skillCost + "MP to use the skill, you have now " + player.getMp() + "MP.");
 	    	  enemy.setHp(enemy.getHp() - damage);
-	    	  System.out.println(player.name + " uses ThunderStorm and deals " + damage + " damage to " + enemy.getName());
+	    	  System.out.println(player.name + " uses ThunderStorm and deals " + damage + " damage to " + enemy.getName() + ", and his remaining HP:" + enemy.getHp());
 	      } else {
 	          System.out.println("Not enough MP to use ThunderStorm.");
 	      }
