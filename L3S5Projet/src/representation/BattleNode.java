@@ -92,7 +92,7 @@ public class BattleNode extends InnerNode {
             // Check if player is defeated (optional)
             if (player.getHp() <= 0) {
                 System.out.println("You are defeated!");
-                player_result = false;
+                this.player_result = false;
                 break;
             }
         }
@@ -103,6 +103,6 @@ public class BattleNode extends InnerNode {
         player.setMp(playerInitialMp);
         player.setAttack(playerInitialAttack);
         // Determine next node based on battle outcome
-        return (player_result = true) ? nextNodes[0] : nextNodes[1];  // Assume index 0 is victory node, 1 is defeat node.
+        return (this.player_result == true) ? getNextNode(0) : getNextNode(1);  // Assume index 0 is victory node, 1 is defeat node.
     }
 }

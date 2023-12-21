@@ -35,9 +35,10 @@ public class ChanceNode extends InnerNode {
     @Override
     public Node chooseNext() {
         display(); // Show the chance situation to the player
-        int choice = random.nextInt(getNextNodes().length); // Randomly select an index
-
-        // Return the Node corresponding to the random choice
-        return getNextNodes()[choice];
+        if (!nextNodes.isEmpty()) {
+            int choice = random.nextInt(nextNodes.size()); // Randomly select an index from available nodes
+            return getNextNode(choice); // Return the Node corresponding to the random choice
+        }
+        return null; // or handle the situation where there are no next nodes
     }
 }

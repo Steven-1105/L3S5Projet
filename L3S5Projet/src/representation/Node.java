@@ -1,6 +1,4 @@
 package representation;
-
-import javax.swing.ImageIcon;
 /**
  * Represents an abstract Node in the game. It serves as a base for all specific types of nodes
  * within the game's narrative structure.

@@ -1,26 +1,35 @@
 package representation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Represents an inner node within the game's narrative structure.
- * This type of node typically has multiple paths or choices leading to different subsequent nodes.
+ * An inner node typically has multiple paths leading to various subsequent nodes, 
+ * representing the choices or branches in the story. It's designed to dynamically
+ * manage the collection of next possible nodes using an ArrayList, allowing for
+ * runtime modifications to the narrative flow.
  */
 public class InnerNode extends Node {
     // Attributes
 
-    /** The array of next possible nodes that can be reached from this node. */
-    protected Node[] nextNodes;
-
+	/**
+     * A list of next possible nodes that can be reached from this node.
+     * Stored in an ArrayList to facilitate dynamic additions and removals.
+     */
+	// 使用ArrayList来存储nextNodes，以便动态添加和移除节点
+    protected List<Node> nextNodes;
     // Constructors
 
     /**
-     * Constructs an InnerNode with a description.
-     * By default, it initializes up to 2 possible branches from this node.
+     * Constructs an InnerNode with a specified description.
+     * Initializes the node with an empty list of next nodes, ready to be populated.
      *
-     * @param description The description of the inner node.
+     * @param description The narrative description of this node.
      */
     public InnerNode(String description) {
         super(description);
-        this.setNextNodes(new Node[2]); // Assuming up to 2 branches of nodes
+        this.nextNodes = new ArrayList<>(); // 初始化为空的ArrayList
     }
 
     // Methods
@@ -34,54 +43,69 @@ public class InnerNode extends Node {
     }
 
     /**
-     * Chooses the next node to proceed to.
-     * This implementation returns the first node by default, but should be overridden to provide
-     * actual logic for choosing the next node.
+     * Chooses and returns the next node to proceed to based on the current node's logic.
+     * This base implementation simply returns the first node from the list of next nodes.
+     * Override this method to implement custom navigation logic.
      *
-     * @return The next Node in the sequence.
+     * @return The next Node in the sequence, or null if there are no next nodes.
      */
     @Override
     public Node chooseNext() {
-        return getNextNode(0); // Returns the first node by default
+    	return nextNodes.isEmpty() ? null : nextNodes.get(0);
     }
-
-    /**
-     * Sets one of the next possible nodes at a given option index.
-     *
-     * @param option The index at which to set the node.
-     * @param node   The next node to set.
-     */
-    public void setNextNode(int option, Node node) {
-  	  if (option >= 0 && option < getNextNodes().length) {
-  		getNextNodes()[option] = node;
-  	  }
-  	}
     
     /**
-     * Gets the array of next possible nodes.
+     * Dynamically adds a node to the list of next possible nodes.
      *
-     * @return The array of next nodes.
+     * @param node The Node to add.
      */
-    public Node[] getNextNodes() {
+    // 动态添加下一个可能的节点
+    public void addNextNode(Node node) {
+        nextNodes.add(node);
+    }
+    
+    /**
+     * Removes a node at a specific index from the list of next possible nodes.
+     *
+     * @param index The index of the node to remove.
+     */
+    // 根据索引移除一个节点
+    public void removeNextNode(int index) {
+        if (index >= 0 && index < nextNodes.size()) {
+            nextNodes.remove(index);
+        }
+    }
+    
+    
+    /**
+     * Retrieves all the next possible nodes as an unmodifiable list.
+     *
+     * @return An unmodifiable view of the list of next nodes.
+     */
+    // 获取所有下一个可能的节点
+    public List<Node> getNextNodes() {
         return nextNodes;
     }
-
+    
     /**
-     * Sets the array of next possible nodes.
+     * Replaces the current list of next nodes with a new list provided.
+     * This allows for bulk updates to the narrative structure.
      *
-     * @param nextNodes The array of next nodes to set.
+     * @param newNextNodes The new list of next nodes to set.
      */
-    public void setNextNodes(Node[] nextNodes) {
-        this.nextNodes = nextNodes;
+    public void setNextNodes(List<Node> newNextNodes) {
+        // 完全替换现有的nextNodes列表
+        this.nextNodes = new ArrayList<>(newNextNodes);
     }
 
+
     /**
-     * Gets a specific next node given an index.
+     * Retrieves a specific next node given an index. Returns null if the index is out of bounds.
      *
      * @param i The index of the node to retrieve.
-     * @return The Node at the specified index.
+     * @return The Node at the specified index or null if index is out of bounds.
      */
     public Node getNextNode(int i) {
-        return nextNodes[i];
+    	return (i >= 0 && i < nextNodes.size()) ? nextNodes.get(i) : null;
     }
 }

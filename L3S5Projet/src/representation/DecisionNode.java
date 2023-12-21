@@ -36,13 +36,25 @@ public class DecisionNode extends InnerNode {
     @Override
     public Node chooseNext() {
         display(); // Show the decision text to the player
+        
+        if (nextNodes.isEmpty()) {
+            System.out.println("No further paths are available from this point.");
+            return null;
+        }
+        
         int decision = 0;
-        do {
-            System.out.println("Make a decision (enter a number):");
-            decision = scanner.nextInt();
-        } while (decision < 1 || decision > getNextNodes().length); // Validate input
-
+        while (decision < 1 || decision > nextNodes.size()) {
+            System.out.println("Make a decision (enter a number 1-" + nextNodes.size() + "):");
+            if (scanner.hasNextInt()) {
+                decision = scanner.nextInt();
+            } else {
+                scanner.next(); // consume the invalid input
+                System.out.println("Invalid input, please enter a number.");
+            }
+        }
+//        System.out.println("Player chose option: " + decision);
+//        System.out.println("Navigating to node: " + (decision - 1));
         // Return the Node corresponding to the player's choice
-        return getNextNodes()[decision - 1];
+        return getNextNode(decision - 1); // Get the corresponding node based on user's choice
     }
 }

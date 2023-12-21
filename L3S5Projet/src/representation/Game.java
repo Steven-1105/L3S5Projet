@@ -1,5 +1,7 @@
 package representation;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import gui.GameFrame;
@@ -15,8 +17,6 @@ public class Game {
 	// Attributes
 	private static Scanner scanner = new Scanner(System.in);
     private GameFrame gameFrame;
-    private PlayerCharacter player;
-    
     // Constructor
     /**
      * Constructs a Game object with the specified GameFrame.
@@ -25,7 +25,7 @@ public class Game {
      */
     public Game(GameFrame gameFrame) {
         this.gameFrame = gameFrame;
-        this.scanner = new Scanner(System.in);
+        Game.scanner = new Scanner(System.in);
     }
     
     /**
@@ -135,19 +135,19 @@ public class Game {
         
 
         // Setting up connections between nodes 
-        ((InnerNode) startNode).setNextNode(0, decisionNode);
-        decisionNode.setNextNode(0, chanceNode);
-        decisionNode.setNextNode(1, endNodeFailure);
-        chanceNode.setNextNode(0, caveDecisionNode);
-        chanceNode.setNextNode(1, dragonDecisionNode);
-        caveDecisionNode.setNextNode(0, bossBattleNode);
-        caveDecisionNode.setNextNode(1, endNodeReturn);
-        bossBattleNode.setNextNode(0, endNodeBossFightWin);
-        bossBattleNode.setNextNode(1, endNodeBossFightLose);
-        dragonDecisionNode.setNextNode(0, dragonBattleNode);
-        dragonDecisionNode.setNextNode(1, endNodeReturn);
-        dragonBattleNode.setNextNode(0, victoryNode);  // Node after victory
-        dragonBattleNode.setNextNode(1, defeatNode); // Node after failure
+        ((InnerNode) startNode).addNextNode(decisionNode);
+        decisionNode.addNextNode(chanceNode);
+        decisionNode.addNextNode(endNodeFailure);
+        chanceNode.addNextNode(caveDecisionNode);
+        chanceNode.addNextNode(dragonDecisionNode);
+        caveDecisionNode.addNextNode(bossBattleNode);
+        caveDecisionNode.addNextNode(endNodeReturn);
+        bossBattleNode.addNextNode(endNodeBossFightWin);
+        bossBattleNode.addNextNode(endNodeBossFightLose);
+        dragonDecisionNode.addNextNode(dragonBattleNode);
+        dragonDecisionNode.addNextNode(endNodeReturn);
+        dragonBattleNode.addNextNode(victoryNode);  // Node after victory
+        dragonBattleNode.addNextNode(defeatNode); // Node after failure
         
         // Decorate the entire structure
         return decorateNode(startNode, gameFrame);
@@ -165,15 +165,16 @@ public class Game {
         if (node == null) {
             return null; // If the node is null, return null.
         }
-        // Iterate over all Nodes, decorating them one by one with a recursive structure.
+        // 新建一个列表来存储装饰过的节点
+        List<Node> decoratedNodes = new ArrayList<>();
         if (node instanceof InnerNode) {
             InnerNode innerNode = (InnerNode) node;
-            for (int i = 0; i < innerNode.getNextNodes().length; i++) {
-                Node nextNode = innerNode.getNextNode(i);
+            for (Node nextNode : innerNode.getNextNodes()) {
                 if (nextNode != null) {
-                    innerNode.setNextNode(i, decorateNode(nextNode, gameFrame));
+                    decoratedNodes.add(decorateNode(nextNode, gameFrame)); // 装饰并添加到新列表
                 }
             }
+            innerNode.setNextNodes(decoratedNodes); // 更新整个列表
         }
         String imagePath = getImagePathForNode(node);
         return new ImageNode(node, imagePath, gameFrame);
