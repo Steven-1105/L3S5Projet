@@ -2,12 +2,18 @@ import java.util.Scanner;
 
 import univers.Race;
 import univers.PlayerCharacter;
-
+/**
+ * A class to test character creation and experience gain for the game.
+ */
 public class Test {
 	// Create a Object Scanner for keyboard input of user
 	private static Scanner scanner = new Scanner(System.in);// create a Scanner object for input
 	
-	
+	/**
+     * The main method to run the character creation and experience gain test.
+     *
+     * @param args The command-line arguments (unused).
+     */
 	public static void main(String[] args) {
 		// Ask the user to enter the name of the hero
 		System.out.println("Please enter your character's name：");
@@ -29,6 +35,11 @@ public class Test {
 	}
 	
 	// Method about the selection of race
+	/**
+     * A method to allow the user to choose a character's race.
+     *
+     * @return The selected character's race.
+     */
 	private static Race chooseRace() {
 		Race race = null;
 	    int choiceOfRace;

@@ -3,16 +3,24 @@ package backGround;
 import java.io.FileInputStream;
 import javazoom.jl.player.Player;
 
+/**
+ * A class responsible for playing background music in the game.
+ */
 public class Bgm {
-  public static void playMusic(String filepath) {
+	 /**
+     * Plays the specified music file.
+     *
+     * @param filepath The file path of the music to be played.
+     */
+	public static void playMusic(String filepath) {
         try {
             FileInputStream fileInputStream = new FileInputStream(filepath);
             Player player = new Player(fileInputStream);
 
-            // 创建一个新线程来播放音乐，以免阻塞 GUI 或其他处理
+            // Create a new thread to play the music so as not to block the GUI or other processing.
             new Thread(() -> {
                 try {
-                    player.play(); // 播放
+                    player.play(); // Play the music
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -8,27 +8,45 @@ import univers.Enemy;
 import univers.PlayerCharacter;
 import univers.Race;
 
+/**
+ * The Game class encapsulates all the elements and logic required to run the game.
+ */
 public class Game {
+	// Attributes
 	private static Scanner scanner = new Scanner(System.in);
     private GameFrame gameFrame;
     private PlayerCharacter player;
     
+    // Constructor
+    /**
+     * Constructs a Game object with the specified GameFrame.
+     * 
+     * @param gameFrame The frame where the game will be displayed.
+     */
     public Game(GameFrame gameFrame) {
         this.gameFrame = gameFrame;
         this.scanner = new Scanner(System.in);
     }
     
+    /**
+     * Starts the game by creating a character, initializing the game, and starting the game loop.
+     */
     public void start() {
-        // 创建角色
+    	// Create a character
         PlayerCharacter player = createCharacter();
 
-        // 初始化游戏所需的角色和节点
+        // Initialize the characters and nodes needed for the game
         Node startNode = initializeGame(player, gameFrame);
 
-        // 开始游戏
+        // Start the game
         startGame(startNode, gameFrame);
     }
     
+    /**
+     * Prompts the user to create a character by entering a name and choosing a race.
+     * 
+     * @return The created PlayerCharacter object.
+     */
     private static PlayerCharacter createCharacter() {
         System.out.println("Please enter your character's name：");
         String name = scanner.nextLine();
@@ -40,6 +58,11 @@ public class Game {
         return player;
     }
     
+    /**
+     * Prompts the user to choose a race for the character.
+     * 
+     * @return The chosen Race object.
+     */
     private static Race chooseRace() {
         Race race = null;
         int choiceOfRace;
@@ -47,7 +70,7 @@ public class Game {
         do {
             System.out.println("Please enter your character's race (1：ORC，2：HUMAN，3：ELF)：");
             choiceOfRace = scanner.nextInt();
-            scanner.nextLine(); // 清除换行符
+            scanner.nextLine(); // Clear line breaks
 
             switch (choiceOfRace) {
                 case 1:
@@ -63,47 +86,55 @@ public class Game {
                     System.out.println("An invalid choice was entered, please try again.");
                     break;
             }
-        } while (race == null); // 继续循环直到有效选择
+        } while (race == null); // Continue looping until a valid selection is made
 
         return race;
     }
     
+    
+    /**
+     * Initializes the game by creating nodes and setting up the game structure.
+     * 
+     * @param player     The PlayerCharacter who will participate in the game.
+     * @param gameFrame  The GameFrame where the game will be displayed.
+     * @return The starting node of the game.
+     */
     private static Node initializeGame(PlayerCharacter player, GameFrame gameFrame) {
-        // 创建敌人
-        Enemy boss = new Boss("大Boss", 100, 20);
-        Enemy dragon = new Boss("恶龙", 400, 75);
+    	// Creating enemies
+        Enemy boss = new Boss("Boss", 100, 20);
+        Enemy dragon = new Boss("Evil Dragon", 400, 75);
 
-        // 创建游戏节点
-        Node startNode = new InnerNode("你是一个勇者，现在你在村子里。");
-        DecisionNode decisionNode = new DecisionNode("你要去森林探险吗？\n1. 是的，我要去森林。\n2. 不，我还没准备好。");
-        TerminalNode endNodeFailure = new TerminalNode("你决定留在村子里，成为一个普通的村民。");
-        ChanceNode chanceNode = new ChanceNode("你勇敢地进入了森林。\n哦！前面有一个神秘的洞穴。");
-        DecisionNode caveDecisionNode = new DecisionNode("你要进入洞穴吗？\n1. 是的，我要进去。\n2. 不，我要回村子去。");
-        BattleNode bossBattleNode = new BattleNode("你在洞穴里遇到了Boss的突袭！一场激烈的战斗开始了！", boss, player);
+        // Create game nodes
+        Node startNode = new InnerNode("You're a brave man, and now you're in the village.");
+        DecisionNode decisionNode = new DecisionNode("Are you going to explore outside? \n1. yes, I'm going. \n2. No, I'm not ready yet.");
+        TerminalNode endNodeFailure = new TerminalNode("You decide to stay in the village and become an ordinary villager.");
+        ChanceNode chanceNode = new ChanceNode("You were brave enough to walk out of the village. \n Oh! There's a mysterious canyon ahead.");
+        DecisionNode caveDecisionNode = new DecisionNode("Are you going into the canyon? \n1. yes, I'm going in. \n2. no, I'm going back to the village.");
+        BattleNode bossBattleNode = new BattleNode("You've encountered a boss raid in the canyon! A fierce battle begins!", boss, player);
         
-        // 创建Boss战斗胜利后的决策节点
-        DecisionNode dragonDecisionNode = new DecisionNode("你遇到了守护洞穴的恶龙，你是否要挑战它？\n1. 是的，我要挑战恶龙。\n2. 不，我要回村子去。");
+        // Create a decision node after winning a boss fight
+        DecisionNode dragonDecisionNode = new DecisionNode("You have encountered the evil dragon that guards the canyon, are you going to challenge it? \n1. Yes, I'm going to challenge it. \n2. No, I'm going back to the village.");
 
-        // 创建与恶龙战斗的节点
-        BattleNode dragonBattleNode = new BattleNode("你面对着强大的恶龙！", dragon, player);
+        // Create a node to fight the dragon
+        BattleNode dragonBattleNode = new BattleNode("You face the mighty dragon!", dragon, player);
         
-        InnerNode endNodeBossFightWin = new InnerNode("经过一番激战，你战胜了Boss，并获得了经验。"){
+        InnerNode endNodeBossFightWin = new InnerNode("After a fierce battle, you defeat the boss and gain experience."){
             @Override
             public Node chooseNext() {
             	display();
                 System.out.println("The character is being upgraded...");
-                player.gainExperience(5400); // 升级到10级
+                player.gainExperience(5400); // Upgrade to level 10
                 return dragonDecisionNode;
             }
         };
         
-        TerminalNode endNodeBossFightLose = new TerminalNode("你在洞穴里遇到了Boss！你被Boss打败了，永久的沉睡在了洞穴里。");
-        TerminalNode endNodeReturn = new TerminalNode("你没有进入洞穴，直接回到了村子。");
-        TerminalNode victoryNode = new TerminalNode("你战胜了恶龙，成为了传说中的英雄！");
-        TerminalNode defeatNode = new TerminalNode("虽然你被恶龙击败，但你的勇气将被后人传颂。");
+        TerminalNode endNodeBossFightLose = new TerminalNode("You've been defeated by the Boss and are permanently sleeping in the canyon.");
+        TerminalNode endNodeReturn = new TerminalNode("You didn't enter the canyon, you went straight back to the village.");
+        TerminalNode victoryNode = new TerminalNode("You defeated the evil dragon and became a legendary hero!");
+        TerminalNode defeatNode = new TerminalNode("Though you were defeated by the evil dragon, your courage will be celebrated by future generations.");
         
 
-        // 设置节点之间的连接
+        // Setting up connections between nodes 
         ((InnerNode) startNode).setNextNode(0, decisionNode);
         decisionNode.setNextNode(0, chanceNode);
         decisionNode.setNextNode(1, endNodeFailure);
@@ -115,18 +146,26 @@ public class Game {
         bossBattleNode.setNextNode(1, endNodeBossFightLose);
         dragonDecisionNode.setNextNode(0, dragonBattleNode);
         dragonDecisionNode.setNextNode(1, endNodeReturn);
-        dragonBattleNode.setNextNode(0, victoryNode);  // 胜利后的节点
-        dragonBattleNode.setNextNode(1, defeatNode);   // 失败后的节点
+        dragonBattleNode.setNextNode(0, victoryNode);  // Node after victory
+        dragonBattleNode.setNextNode(1, defeatNode); // Node after failure
         
-        // 对整个结构进行装饰
+        // Decorate the entire structure
         return decorateNode(startNode, gameFrame);
     }
     
+    
+    /**
+     * Decorates a node with an image and connects it with other nodes in the game structure.
+     * 
+     * @param node       The node to be decorated.
+     * @param gameFrame  The GameFrame where the game will be displayed.
+     * @return The decorated node.
+     */
     private static Node decorateNode(Node node, GameFrame gameFrame) {
         if (node == null) {
-            return null; // 如果节点为 null，直接返回 null
+            return null; // If the node is null, return null.
         }
-
+        // Iterate over all Nodes, decorating them one by one with a recursive structure.
         if (node instanceof InnerNode) {
             InnerNode innerNode = (InnerNode) node;
             for (int i = 0; i < innerNode.getNextNodes().length; i++) {
@@ -140,6 +179,13 @@ public class Game {
         return new ImageNode(node, imagePath, gameFrame);
     }
     
+    
+    /**
+     * Retrieves the image path associated with a specific node based on its ID.
+     * 
+     * @param node The node whose image path is to be retrieved.
+     * @return The image path as a String.
+     */
     private static String getImagePathForNode(Node node) {
         int nodeId = node.getId();
         switch(nodeId) {
@@ -165,10 +211,15 @@ public class Game {
         }
     }
 
-
+    /**
+     * Starts the game loop, displaying nodes and navigating through the game structure based on player choices.
+     * 
+     * @param startNode  The starting node of the game.
+     * @param gameFrame  The GameFrame where the game will be displayed.
+     */
     private static void startGame(Node startNode, GameFrame gameFrame) {
         Node currentNode = startNode;
-        currentNode.display(); // 显示起始节点信息
+        currentNode.display(); // Display start node information
         if (currentNode instanceof ImageNode) {
             gameFrame.updateBackground(((ImageNode) currentNode).getImage());
         }
@@ -176,17 +227,17 @@ public class Game {
         while (!(currentNode instanceof TerminalNode)) {
 //        	System.out.println("Current Node: " + currentNode.getDescription());
 //        	System.out.println("Node Type: " + currentNode.getClass().getSimpleName());
-        	// 进行节点选择
+        	// Perform node selection
             currentNode = currentNode.chooseNext();
 //            System.out.println("Switched to Node: " + currentNode.getDescription());
 //            System.out.println("Node Type: " + currentNode.getClass().getSimpleName());
-            // 更新背景图片
+            // Update the background image
             if (currentNode instanceof ImageNode) {
                 gameFrame.updateBackground(((ImageNode) currentNode).getImage());
             }
         }
-        // 游戏结束，显示终结节点信息
-        System.out.print("游戏结束：" );
+        // Game over, display end node information
+        System.out.print("The game is over: " );
         currentNode.display();
     }
 }

@@ -1,6 +1,9 @@
 package univers;
 import java.util.Scanner;
 
+/**
+ * A class representing a player character in the game.
+ */
 public class PlayerCharacter extends PersonnageDeBase {
 	  //Attributs
 	  protected int experience;
@@ -9,18 +12,29 @@ public class PlayerCharacter extends PersonnageDeBase {
 	  protected static Scanner scanner = new Scanner(System.in); // create a Scanner object for input
 
 	  //Constructeurs
-	    public PlayerCharacter (String name, Race race) {
+	  /**
+	   * Creates a player character with the specified name and race.
+	   * Adds racial bonuses based on his race.
+	   * @param name The name of the character.
+	   * @param race The race of the character (an enum).
+	   */
+	  public PlayerCharacter (String name, Race race) {
 	      super(name, 100, 100, 20, race);
 	      this.hp += race.getHpBonus();
 	      this.mp += race.getMpBonus();
 	      this.attack += race.getAttackBonus();
 	      this.experience = 0;
 	      this.currentLevel = 1;
-	    }
-
+	  }
 	  
 	  //***************** methods about character's experience and selection of profession after level 10 *****************
-	  //experience needed to level up       
+	  //experience needed to level up
+
+	 /**
+	  * Returns the experience needed to level up.
+	  *
+	  * @return The experience required to level up, based on the current level.
+	  */
 	  public int getExperienceNeededToLevelUp(){
 		  // Assuming it takes 100 experience points multiplied by the current level to level up
 		  return 100 * currentLevel;
@@ -28,6 +42,11 @@ public class PlayerCharacter extends PersonnageDeBase {
 	  
 	  
 	  //Method of experience gain and leveling up
+	 /**
+	  * Increases the character's experience points and handles leveling up.
+	  *
+	  * @param exp The total experience gained.
+	  */
 	  public void gainExperience(int exp) {
 	        this.experience += exp; //exp is the total experience gained
 
@@ -48,6 +67,9 @@ public class PlayerCharacter extends PersonnageDeBase {
 	  
 	  
 	  //Method of choosing a profession for a player
+	  /**
+	   * Allows the player character to choose a profession after reaching level 10.
+	   */
 	  private void selectProfession() {
 		  	System.out.println("------------------------------------------------------------------------");
 	        System.out.println("|Congratulations on reaching level 10! You can now choose a profession.|");
@@ -94,13 +116,15 @@ public class PlayerCharacter extends PersonnageDeBase {
 	        }
 	  }
 	  
-	  
+	  /**
+	   * Handles leveling up of the character.
+	   */
 	  private void levelUp() {
 	        this.currentLevel++;
 	        this.experience -= getExperienceNeededToLevelUp(); // Subtract the threshold
 	        
 	        //Increase stats upon leveling up
-	        //LEVEL UP change of HP/MP/ATTACK/DEFENSE/SPEED
+	        //LEVEL UP change of HP/MP/ATTACK
 	        changeHP(30 * (currentLevel - 1)+0.1*this.hp);
 	        changeMP(50 * (currentLevel - 1)+0.1*this.mp);
 	        changeAttack(10 * (currentLevel - 1)+0.1*this.attack);
@@ -112,14 +136,28 @@ public class PlayerCharacter extends PersonnageDeBase {
 	  //******************************************************************************************************************
 	  
 	  //Getters
+	  /**
+	   * Gets the character's current experience points.
+	   *
+	   * @return The character's experience points.
+	   */
 	  public int getExperience() {
 	    return experience;
 	  }
 
+	  /**
+	   * Gets the character's current level.
+	   *
+	   * @return The character's level.
+	   */
 	  public int getCurrentLevel() {
 	    return currentLevel;
 	  }
-	  
+	  /**
+	   * Gets the character's chosen profession.
+	   *
+	   * @return The character's profession.
+	   */
 	  public Profession getProfession() {
 			return this.profession;
 	  }
@@ -133,7 +171,5 @@ public class PlayerCharacter extends PersonnageDeBase {
 	  public String toString() {
 	    return super.toString() + "{Level = " + currentLevel + ", Experience Points = " + experience +"}";
 	  }
-
-	  
 }
 	    

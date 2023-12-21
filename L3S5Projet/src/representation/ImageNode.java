@@ -1,31 +1,56 @@
 package representation;
 
 import javax.swing.ImageIcon;
-
 import gui.GameFrame;
 
-public class ImageNode extends NodeDecorator{
-	private ImageIcon image;
-	private GameFrame gameFrame;
+/**
+ * A decorator class that adds an image feature to nodes.
+ * It wraps around a standard node and associates an image with it,
+ * which can be displayed in a GameFrame.
+ */
+public class ImageNode extends NodeDecorator {
+    /**
+     * The image associated with this node.
+     */
+    private ImageIcon image;
 
-	public ImageNode(Node wrappedNode, String imagePath, GameFrame gameFrame) {
+    /**
+     * The game frame where the image will be displayed.
+     */
+    private GameFrame gameFrame;
+
+    /**
+     * Constructs an ImageNode that wraps around an existing node, adding image capabilities.
+     *
+     * @param wrappedNode The node to be wrapped by this ImageNode.
+     * @param imagePath   The path to the image file to be displayed for this node.
+     * @param gameFrame   The game frame where the image is to be displayed.
+     */
+    public ImageNode(Node wrappedNode, String imagePath, GameFrame gameFrame) {
         super(wrappedNode);
         this.image = new ImageIcon(imagePath);
         this.gameFrame = gameFrame;
-//        System.out.println("ImageNode created with image path: " + imagePath);
     }
-	
-	public ImageIcon getImage() {
+
+    /**
+     * Gets the image associated with this node.
+     *
+     * @return The ImageIcon associated with this node.
+     */
+    public ImageIcon getImage() {
         return image;
     }
-	
-	@Override
+
+    /**
+     * Displays the node's content and updates the GameFrame's background with the node's image.
+     */
+    @Override
     public void display() {
-		// 更新 GameFrame 中的背景图片
+        // Update the GameFrame's background image.
         gameFrame.updateBackground(image);
-        // 然后调用被装饰对象的 display 方法
+        // Then call the display method of the wrapped node.
         super.display();
     }
 
-	 // chooseNext 方法继承自 NodeDecorator
+    // The chooseNext method is inherited from NodeDecorator.
 }

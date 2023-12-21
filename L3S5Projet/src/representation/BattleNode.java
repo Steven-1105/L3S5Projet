@@ -1,91 +1,108 @@
 package representation;
 
 import univers.PlayerCharacter;
-
+import univers.Enemy;
 import java.util.Scanner;
 
-import univers.Enemy;
+/**
+ * Represents a battle scenario node where the player character engages in combat with an enemy.
+ */
+public class BattleNode extends InnerNode {
+    protected Enemy enemy;
+    protected PlayerCharacter player;
 
-public class BattleNode extends InnerNode{
-	protected Enemy enemy;
-	protected PlayerCharacter player;
+    protected int playerInitialHp;
+    protected int playerInitialMp;
+    protected int playerInitialAttack;
+    private Scanner scanner;
+    protected boolean player_result = true;
 
-	protected int playerInitialHp;
-	protected int playerInitialMp;
-	private Scanner scanner;
-	protected boolean player_result = true;
+    /**
+     * Constructs a BattleNode with a given description, enemy, and player.
+     *
+     * @param description The narrative description of the battle.
+     * @param enemy       The enemy character the player will fight.
+     * @param player      The player character engaged in the battle.
+     */
+    public BattleNode(String description, Enemy enemy, PlayerCharacter player) {
+        super(description);
+        this.enemy = enemy;
+        this.player = player;
+        this.playerInitialHp = player.getHp();  // Store initial HP
+        this.playerInitialMp = player.getMp();  // Store initial MP
+        this.playerInitialAttack = player.getAttack();  // Store initial Attack
+        this.scanner = new Scanner(System.in);  // For user input
+    }
 
-	public BattleNode(String description, Enemy enemy, PlayerCharacter player){
-	    //描述
-		super(description);
-		//添加玩家和敌人
-	    this.enemy = enemy;
-	    this.player = player;
-	    // 存储初始HP和MP
-	    this.playerInitialHp = player.getHp();
-	    this.playerInitialMp = player.getMp();
-	    //检测键盘输入
-	    this.scanner = new Scanner(System.in);
-	}
+    @Override
+    public void display() {
+        System.out.println(description);
+    }
 
-	  @Override
-	  public void display() {
-	    System.out.println(description);
-	  }
+    /**
+     * Engages the player in a turn-based battle with the enemy.
+     * Players can choose to attack or use skills if available.
+     * The battle continues until either the player or enemy's health drops to zero or below.
+     *
+     * @return The next node in the story, based on the outcome of the battle (victory or defeat).
+     */
+    @Override
+    public Node chooseNext() {
+        display();
+        System.out.println("The battle begins!");
 
-	  @Override
-	  // 玩家和Boss轮流攻击
-	  public Node chooseNext() {
-		  display();
-		  System.out.println("战斗开始！");
+        // Battle loop
+        while (enemy.getHp() > 0) {
+            // Player's turn
+            System.out.println("Your turn.");
+            System.out.println("Choose your action: 1. Attack 2. Skill");
+            int choice = scanner.nextInt();
 
-	      // 战斗循环
-	      while (enemy.getHp() > 0) {
-	          // 玩家回合
-	          System.out.println("你的回合");
-	          System.out.println("选择你的行动：1.攻击 2.技能");
-	          int choice = scanner.nextInt();
+            if (choice == 1) {
+                // Perform attack
+                enemy.setHp(enemy.getHp() - player.getAttack());
+                System.out.println("You attacked an enemy, his remaining HP:" + enemy.getHp());
+            } else if (choice == 2) {
+                // Perform skill
+                if (player.getProfession() != null) {
+                    // Display and execute skills
+                    player.getProfession().displaySkills();
+                    System.out.println("Select a skill :");
+                    int skillChoice = scanner.nextInt();
+                    player.getProfession().useSkill(skillChoice, player, enemy);
+                } else {
+                    // Default attack if no profession
+                    System.out.println("You don't have a profession yet. Default is Attack.");
+                    enemy.setHp(enemy.getHp() - player.getAttack());
+                    System.out.println("You attacked an enemy, his remaining HP:" + enemy.getHp());
+                }
+            }
 
-	          if (choice == 1) {
-	              // 执行攻击
-	              enemy.setHp(enemy.getHp() - player.getAttack());
-	              System.out.println("你攻击了敌人，他的剩余血量：" + enemy.getHp());
-	          } else if (choice == 2) {
-	              // 执行技能
-	              if (player.getProfession() != null) {
-	                  // 显示并执行技能
-	                  player.getProfession().displaySkills();
-	                  System.out.println("选择一个技能:");
-	                  int skillChoice = scanner.nextInt();
-	                  player.getProfession().useSkill(skillChoice, player, enemy);
-	              } else {
-	                  System.out.println("您还没有职业，默认使用攻击");
-	                  enemy.setHp(enemy.getHp() - player.getAttack());
-		              System.out.println("你攻击了敌人，他的剩余血量：" + enemy.getHp());
-	              }
-	          }
-	          // 检查敌人是否被击败
-	          if (enemy.getHp() <= 0) {
-	              break;
-	          }
-	          // 敌人回合
-	          System.out.println("敌人的回合");
-	          // 假设敌人执行某种攻击
-	          player.setHp(player.getHp() - enemy.getAttack());
-	          System.out.println("敌人Boss攻击了你，你的剩余血量：" + player.getHp());
-	          
-	          // 检查玩家是否被击败 (可选)
-	          if (player.getHp() <= 0) {
-	              System.out.println("你被击败了！");
-	              player_result = false;
-	              break;
-	          }
-	      }
-	      System.out.println("战斗结束！");
-	      //恢复玩家的初始数值
-	      player.setHp(playerInitialHp);
-          player.setMp(playerInitialMp);
-          
-	      return (player_result = true) ? nextNodes[0] : nextNodes[1];  // 假设索引 0 是胜利节点，1 是失败节点。
-	  }
+            // Check if enemy is defeated
+            if (enemy.getHp() <= 0) {
+                break;
+            }
+
+            // Enemy's turn
+            System.out.println("Enemy's turn");
+            // Assume enemy performs some kind of attack
+            player.setHp(player.getHp() - enemy.getAttack());
+            System.out.println("Enemy has attacked you, your remaining blood:" + player.getHp());
+
+            // Check if player is defeated (optional)
+            if (player.getHp() <= 0) {
+                System.out.println("You are defeated!");
+                player_result = false;
+                break;
+            }
+        }
+
+        System.out.println("The battle is over!");
+        // Restore player's initial HP, MP and Attack
+        player.setHp(playerInitialHp);
+        player.setMp(playerInitialMp);
+        player.setAttack(playerInitialAttack);
+        // Determine next node based on battle outcome
+        return (player_result = true) ? nextNodes[0] : nextNodes[1];  // Assume index 0 is victory node, 1 is defeat node.
+    }
 }

@@ -6,13 +6,15 @@ public enum Race {
     ELF(50, 200, 10);
 
     private final int hpBonus;
-    private final int attackBonus;
     private final int mpBonus;
+    private final int attackBonus;
+    
 
-    Race(int hpBonus, int attackBonus, int mpBonus) {
+    Race(int hpBonus, int mpBonus, int attackBonus) {
         this.hpBonus = hpBonus;
-        this.attackBonus = attackBonus;
         this.mpBonus = mpBonus;
+        this.attackBonus = attackBonus;
+        
     }
 
     public int getHpBonus() {

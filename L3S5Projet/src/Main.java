@@ -7,13 +7,21 @@ import univers.Race;
 import univers.Boss;
 import univers.Enemy;
 
+/**
+ * The main class to launch the text-based game.
+ */
 public class Main {
+	/**
+     * The main method to launch the game.
+     *
+     * @param args The command-line arguments (unused).
+     */
     public static void main(String[] args) {
-    	//创建游戏窗口
+    	// Creating a game window
         GameFrame gameFrame = new GameFrame();
         gameFrame.launch();
         
-        // 创建游戏实例并开始
+        // Create a game instance and start
         Game game = new Game(gameFrame);
         game.start();    
     }
