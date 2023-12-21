@@ -9,11 +9,14 @@ public class PlayerCharacter extends PersonnageDeBase {
 	  protected static Scanner scanner = new Scanner(System.in); // create a Scanner object for input
 
 	  //Constructeurs
-	  public PlayerCharacter (String name, Race race) {
-	    super(name, 100, 100, 20, 10, 5, race);
-	    this.experience = 0;
-	    this.currentLevel = 1;
-	  }
+	    public PlayerCharacter (String name, Race race) {
+	      super(name, 100, 100, 20, race);
+	      this.hp += race.getHpBonus();
+	      this.mp += race.getMpBonus();
+	      this.attack += race.getAttackBonus();
+	      this.experience = 0;
+	      this.currentLevel = 1;
+	    }
 
 	  
 	  //***************** methods about character's experience and selection of profession after level 10 *****************
@@ -51,39 +54,38 @@ public class PlayerCharacter extends PersonnageDeBase {
 	        System.out.println("------------------------------------------------------------------------");
 
 	        int choice = 0;
-	        while (choice < 1 || choice > 5) {
+	        while (choice < 1 || choice > 3) {
 	            System.out.println("Please select a profession:");
 	            System.out.println("1. Archer");
 	            System.out.println("2. Berserker");
 	            System.out.println("3. Magic Shooter");
-	            System.out.println("4. NecroMancer");
-	            System.out.println("5. Paladin");
-	            System.out.print("Please enter choices (1-5):");
+	            System.out.print("Please enter choices (1-3):");
 
 	            choice = scanner.nextInt();
 	            scanner.nextLine(); // Read newline characters
 
 	            switch (choice) {
-	                case 1:
-	                    this.profession = new Prof_Archer();
-	                    System.out.println("You are now an Archer!");
-	                    break;
-	                case 2:
-	                    this.profession = new Prof_Berserker();
-	                    System.out.println("You are now a Berserker!");
-	                    break;
-	                case 3:
-	                    this.profession = new Prof_MagicShooter();
-	                    System.out.println("You are now a Magic Shooter!");
-	                    break;
-	                case 4:
-	                    this.profession = new Prof_NecroMancer();
-	                    System.out.println("You are now a NecroMancer!");
-	                    break;
-	                case 5:
-	                    this.profession = new Prof_Paladin();
-	                    System.out.println("You are now a Paladin!");
-	                    break;
+	            	case 1:
+	            		this.profession = new Prof_Archer();
+	            		this.hp = profession.modifyHp(this.hp);
+	            		this.attack = profession.modifyAttack(this.attack);
+	            		this.mp = profession.modifyMp(this.mp);
+	            		System.out.println("You are now an Archer!");
+	            		break;
+	            	case 2:
+	            		this.profession = new Prof_Berserker();
+	            		this.hp = profession.modifyHp(this.hp);
+	            		this.attack = profession.modifyAttack(this.attack);
+	            		this.mp = profession.modifyMp(this.mp);
+	            		System.out.println("You are now a Berserker!");
+	            		break;
+	            	case 3:
+	            		this.profession = new Prof_MagicShooter();
+	            		this.hp = profession.modifyHp(this.hp);
+	            		this.attack = profession.modifyAttack(this.attack);
+	            		this.mp = profession.modifyMp(this.mp);
+	            		System.out.println("You are now a Magic Shooter!");
+	            		break;
 	                default:
 	                    System.out.println("Invalid entry, please re-enter.");
 	                    choice = 0; // Reset the selection so that the loop continues
@@ -96,17 +98,17 @@ public class PlayerCharacter extends PersonnageDeBase {
 	  private void levelUp() {
 	        this.currentLevel++;
 	        this.experience -= getExperienceNeededToLevelUp(); // Subtract the threshold
-
+	        
 	        //Increase stats upon leveling up
 	        //LEVEL UP change of HP/MP/ATTACK/DEFENSE/SPEED
-	        changeHP(10 * (currentLevel - 1));
-	        changeMP(15 * (currentLevel - 1));
-	        changeAttack(1 * (currentLevel - 1));
-	        changeDefense(1 * (currentLevel - 1));
-	        changeSpeed(1 * (currentLevel - 1));
-
-	        System.out.println("You leveled up to level " + this.currentLevel + "!");
+	        changeHP(30 * (currentLevel - 1)+0.1*this.hp);
+	        changeMP(50 * (currentLevel - 1)+0.1*this.mp);
+	        changeAttack(10 * (currentLevel - 1)+0.1*this.attack);
+	        System.out.println("Your level up to level " + this.currentLevel + "!");
 	  }
+	  
+	  
+	  
 	  //******************************************************************************************************************
 	  
 	  //Getters
@@ -118,6 +120,10 @@ public class PlayerCharacter extends PersonnageDeBase {
 	    return currentLevel;
 	  }
 	  
+	  public Profession getProfession() {
+			return this.profession;
+	  }
+	  
 	  
 	  //close the Scanner object
 	  //scanner.close();
@@ -127,6 +133,7 @@ public class PlayerCharacter extends PersonnageDeBase {
 	  public String toString() {
 	    return super.toString() + "{Level = " + currentLevel + ", Experience Points = " + experience +"}";
 	  }
+
 	  
 }
 	    

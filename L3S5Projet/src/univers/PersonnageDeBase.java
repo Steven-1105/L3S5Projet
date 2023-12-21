@@ -8,18 +8,14 @@ public class PersonnageDeBase {
 	protected int hp;
 	protected int mp;
 	protected int attack;
-	protected int defense;
-	protected int speed; 
 	protected Race race;// Race is assumed to be an enum that you will define
 
 	//Constructeurs
-	public PersonnageDeBase(String name, int hp, int mp, int attack, int defense, int speed, Race race) {
+	public PersonnageDeBase(String name, int hp, int mp, int attack, Race race) {
 	    this.name = name;
 	    this.hp = hp;
 	    this.mp = mp;
 	    this.attack = attack;
-	    this.defense = defense;
-	    this.speed = speed;
 	    this.race = race;
 	}
 	//Méthodes
@@ -31,8 +27,6 @@ public class PersonnageDeBase {
 	           "hp = " + hp + "," +
 	           "mp = " + mp + "," +
 	           "attack = " + attack + "," +
-	           "defense = " + defense + "," +
-	           "speed = " + speed + "," +
 	           "race = " + race +
 	           '}';
 	}
@@ -46,36 +40,26 @@ public class PersonnageDeBase {
 	    return hp == that.hp &&
 	           mp == that.mp &&
 	           attack == that.attack &&
-	           defense == that.defense &&
-	           speed == that.speed &&
 	           Objects.equals(name, that.name) &&
 	           race == that.race;
 	}
   
 	@Override
 	public int hashCode() {
-	    return Objects.hash(name, hp, mp, attack, defense, speed, race);
+	    return Objects.hash(name, hp, mp, attack, race);
 	}
 	  
 	//Protected methods for changing attributes, which can be overridden by subclasses if necessary
-	protected void changeHP(int amount) {
+	protected void changeHP(double amount) {
 	    this.hp += amount;
 	}
 	
-	protected void changeMP(int amount) {
+	protected void changeMP(double amount) {
 	    this.mp += amount;
 	}
 	
-	protected void changeAttack(int amount) {
+	protected void changeAttack(double amount) {
 	    this.attack += amount;
-	}
-	
-	protected void changeDefense(int amount) {
-	    this.defense += amount;
-	}
-	
-	protected void changeSpeed(int amount) {
-	    this.speed += amount;
 	}
   
 	//**************Getters and setters**************
@@ -109,21 +93,6 @@ public class PersonnageDeBase {
 	
 	public void setAttack(int attack) {
 	    this.attack = attack;
-	}
-	  
-	public int getDefense() {
-	    return defense;
-	}
-	public void setDefense(int defense) {
-	    this.defense = defense;
-	}
-	
-	public int getSpeed() {
-	    return speed;
-	}
-	
-	public void setSpeed(int speed) {
-	    this.speed = speed;
 	}
 	
 	public Race getRace() {

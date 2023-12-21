@@ -22,7 +22,7 @@ public class GameFrame extends JFrame {
         setSize(windowWidth, windowHeight);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
+        setResizable(true);
         setTitle("龙与小树林");
         add(backgroundPanel);
         setVisible(true);
