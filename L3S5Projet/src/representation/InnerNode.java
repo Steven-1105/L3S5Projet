@@ -17,7 +17,7 @@ public class InnerNode extends Node {
      * A list of next possible nodes that can be reached from this node.
      * Stored in an ArrayList to facilitate dynamic additions and removals.
      */
-	// 使用ArrayList来存储nextNodes，以便动态添加和移除节点
+	// Use ArrayList to store nextNodes to dynamically add and remove nodes
     protected List<Node> nextNodes;
     // Constructors
 
@@ -29,7 +29,7 @@ public class InnerNode extends Node {
      */
     public InnerNode(String description) {
         super(description);
-        this.nextNodes = new ArrayList<>(); // 初始化为空的ArrayList
+        this.nextNodes = new ArrayList<>(); // Initialize an empty ArrayList.
     }
 
     // Methods
@@ -59,7 +59,7 @@ public class InnerNode extends Node {
      *
      * @param node The Node to add.
      */
-    // 动态添加下一个可能的节点
+    // Dynamically add the next possible node
     public void addNextNode(Node node) {
         nextNodes.add(node);
     }
@@ -69,7 +69,7 @@ public class InnerNode extends Node {
      *
      * @param index The index of the node to remove.
      */
-    // 根据索引移除一个节点
+    // Remove a node by index
     public void removeNextNode(int index) {
         if (index >= 0 && index < nextNodes.size()) {
             nextNodes.remove(index);
@@ -82,7 +82,7 @@ public class InnerNode extends Node {
      *
      * @return An unmodifiable view of the list of next nodes.
      */
-    // 获取所有下一个可能的节点
+    // Get all the next possible nodes
     public List<Node> getNextNodes() {
         return nextNodes;
     }
@@ -94,7 +94,7 @@ public class InnerNode extends Node {
      * @param newNextNodes The new list of next nodes to set.
      */
     public void setNextNodes(List<Node> newNextNodes) {
-        // 完全替换现有的nextNodes列表
+    	// Completely replace the existing nextNodes list.
         this.nextNodes = new ArrayList<>(newNextNodes);
     }
 

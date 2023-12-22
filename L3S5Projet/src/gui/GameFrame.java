@@ -47,7 +47,7 @@ public class GameFrame extends JFrame {
      * @param newImage The new background image to set.
      */
     public void updateBackground(ImageIcon newImage) {
-//        System.out.println("Updated background image ：" + newImage.getDescription()); // Add debugging information
+//        System.out.println("Updated background image : " + newImage.getDescription()); // Add debugging information
         backgroundPanel.setBackgroundImage(newImage);
         backgroundPanel.repaint();
     }

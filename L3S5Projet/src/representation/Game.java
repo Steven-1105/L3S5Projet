@@ -48,7 +48,7 @@ public class Game {
      * @return The created PlayerCharacter object.
      */
     private static PlayerCharacter createCharacter() {
-        System.out.println("Please enter your character's name：");
+        System.out.println("Please enter your character's name: ");
         String name = scanner.nextLine();
         Race race = chooseRace();
 
@@ -68,7 +68,7 @@ public class Game {
         int choiceOfRace;
 
         do {
-            System.out.println("Please enter your character's race (1：ORC，2：HUMAN，3：ELF)：");
+            System.out.println("Please enter your character's race (1: ORC, 2: HUMAN, 3: ELF): ");
             choiceOfRace = scanner.nextInt();
             scanner.nextLine(); // Clear line breaks
 
@@ -156,7 +156,7 @@ public class Game {
     
     
     /**
-     * Decorates a node with an image and connects it with other nodes in the game structure.
+     * Decorates a node with image and misic(exclusif TerminalNode because it's the end of the game)and connects it with other nodes in the game structure.
      * 
      * @param node       The node to be decorated.
      * @param gameFrame  The GameFrame where the game will be displayed.
@@ -167,26 +167,26 @@ public class Game {
             return null; // If the node is null, return null.
         }
         
-        String imagePath = getImagePathForNode(node); // 获取节点对应的图片路径
-        Node decoratedNode = new ImageNode(node, imagePath, gameFrame); // 用图片装饰节点
+        String imagePath = getImagePathForNode(node); // Get the path to the image corresponding to the node
+        Node decoratedNode = new ImageNode(node, imagePath, gameFrame); // Decorate nodes with images
         
-        // 仅为TerminalNode添加音乐
+        // Add music for TerminalNode only
         if (node instanceof TerminalNode) {
-            String soundPath = getSoundPathForNode(node); // 获取节点对应的音乐路径
-            decoratedNode = new SoundNode(decoratedNode, soundPath); // 用音乐装饰节点
-            System.out.println("SoundNode Decorated: " + node.getDescription() + " with sound " + soundPath); // 调试信息
+            String soundPath = getSoundPathForNode(node); // Get the music path corresponding to the node
+            decoratedNode = new SoundNode(decoratedNode, soundPath); // Decorate nodes with music
+            // System.out.println("SoundNode Decorated: " + node.getDescription() + " with sound " + soundPath); // Debugging information
         }
         
-        // 如果节点是InnerNode，递归装饰它的所有nextNodes
+        // If the node is an InnerNode, recursively decorate all its nextNodes.
         if (node instanceof InnerNode) {
             InnerNode innerNode = (InnerNode) node;
             List<Node> decoratedNextNodes = new ArrayList<>();
             for (Node nextNode : innerNode.getNextNodes()) {
-                decoratedNextNodes.add(decorateNode(nextNode, gameFrame)); // 递归装饰
+                decoratedNextNodes.add(decorateNode(nextNode, gameFrame)); // Recursive decoration
             }
-            innerNode.setNextNodes(decoratedNextNodes); // 更新装饰过的nextNodes列表
+            innerNode.setNextNodes(decoratedNextNodes); // Update the list of decorated nextNodes.
         }
-        return decoratedNode; // 返回装饰过的节点
+        return decoratedNode; // Return decorated nodes
     }
     
     
@@ -235,14 +235,14 @@ public class Game {
     private static String getSoundPathForNode(Node node) {
         int nodeId = node.getId();
         switch(nodeId) {
-            // 根据不同的节点ID返回不同的音乐文件路径
+        	// return different music file paths based on different node IDs
             case 9:
             case 12:
-                return "music/Victory_music.mp3"; // 胜利时的音乐
+                return "music/Victory_music.mp3"; // Music for Victory
             case 13:
-                return "music/Defeat_music.mp3"; // 失败时的音乐
+                return "music/Defeat_music.mp3"; // Music for Failure
             default:
-                return "music/bgm.mp3"; // 默认音乐
+                return "music/bgm.mp3"; // Default Music
         }
     }
 

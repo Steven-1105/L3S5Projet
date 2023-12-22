@@ -34,6 +34,9 @@ public class SoundNode extends NodeDecorator {
         playSound(soundFilePath); // Play music
     }
 
+    /**
+     * Override chooseNext methods
+     */
     @Override
     public Node chooseNext() {
     	// Play music

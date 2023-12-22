@@ -4,7 +4,7 @@ public abstract class BaseDeNpc {
 	protected String name;
 	protected String description;// Description of Npc, like it's a merchant...
 
-	// private String dialogue;//Npc's talk, 如"young hero, do you have any question?"
+	// private String dialogue;//Npc's talk, like "young hero, do you have any question?"
 	public BaseDeNpc(String name, String description) {
 		this.name = name;
 		this.description = description;
