@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"backGround"},{"l":"gui"},{"l":"representation"},{"l":"univers"},{"l":"所有程序包","u":"allpackages-index.html"}];updateSearchResults();
