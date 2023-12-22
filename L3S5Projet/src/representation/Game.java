@@ -268,8 +268,11 @@ public class Game {
         while (!(currentNode instanceof TerminalNode)) {
 //        	System.out.println("Current Node: " + currentNode.getDescription());
 //        	System.out.println("Node Type: " + currentNode.getClass().getSimpleName());
-        	if (checkForPause()) {
-                showPauseMenu(currentNode);
+        	// pause option when boss fight win
+        	if (currentNode.getId() == 7) {
+        		if (checkForPause()) {
+                    showPauseMenu(currentNode);
+        		}
             }
         	// Perform node selection
             currentNode = currentNode.chooseNext();
@@ -295,7 +298,7 @@ public class Game {
     }
     
     private boolean checkForPause() {
-        System.out.println("Press 'P' to pause. Press any other key to continue.");
+        System.out.println("Press 'P' to pause. Press any other key to continue. (You can save the game in the pause menu)");
         String input = scanner.nextLine();
         return input.equalsIgnoreCase("P");
     }
@@ -307,7 +310,13 @@ public class Game {
             return true;
         } else if (input.equalsIgnoreCase("S")) {
             saveGame(currentNode);
+            System.out.println("Press 'P' to quit. Press any other key to continue.");
+            input = scanner.nextLine();
+            if (input.equalsIgnoreCase("P")) {
+            	System.out.println("Game quit automatically.");
+            	System.exit(0);
             return true;
+            }
         }
         return false;
     }
