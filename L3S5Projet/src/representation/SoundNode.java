@@ -30,7 +30,7 @@ public class SoundNode extends NodeDecorator {
      */
     @Override
     public void display() {
-        super.display(); // Display the description of the decorated node
+    	wrappedNode.display(); // Display the description of the decorated node
         playSound(soundFilePath); // Play music
     }
 

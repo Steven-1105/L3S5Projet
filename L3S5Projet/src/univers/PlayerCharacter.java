@@ -1,8 +1,12 @@
 package univers;
 import java.util.Scanner;
+import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 
 /**
- * A class representing a player character in the game.
+ * Represents a player character in the game.
+ * This class extends the base character class to include attributes and methods specific to player characters,
+ * such as experience and profession.
  */
 public class PlayerCharacter extends PersonnageDeBase {
 	  //Attributs
@@ -13,10 +17,11 @@ public class PlayerCharacter extends PersonnageDeBase {
 
 	  //Constructeurs
 	  /**
-	   * Creates a player character with the specified name and race.
-	   * Adds racial bonuses based on his race.
+	   * Constructs a new player character with the given name and race.
+	   * The character's health points (HP), mana points (MP), and attack are initialized based on the race.
+	   *
 	   * @param name The name of the character.
-	   * @param race The race of the character (an enum).
+	   * @param race The race of the character.
 	   */
 	  public PlayerCharacter (String name, Race race) {
 	      super(name, 100, 100, 20, race);
@@ -42,11 +47,12 @@ public class PlayerCharacter extends PersonnageDeBase {
 	  
 	  
 	  //Method of experience gain and leveling up
-	 /**
-	  * Increases the character's experience points and handles leveling up.
-	  *
-	  * @param exp The total experience gained.
-	  */
+	  /**
+	   * Increases the character's experience points and handles leveling up.
+	   * When the experience exceeds the threshold required to level up, the character's level increases.
+	   *
+	   * @param exp The total experience gained.
+	   */
 	  public void gainExperience(int exp) {
 	        this.experience += exp; //exp is the total experience gained
 
@@ -68,10 +74,11 @@ public class PlayerCharacter extends PersonnageDeBase {
 	  
 	  //Method of choosing a profession for a player
 	  /**
-	   * Allows the player character to choose a profession after reaching level 10.
+	   * Allows the player to choose a profession upon reaching level 10.
+	   * This method presents the player with a choice of professions and applies the selected profession to the character.
 	   */
 	  private void selectProfession() {
-		  	System.out.println("------------------------------------------------------------------------");
+	   try {System.out.println("------------------------------------------------------------------------");
 	        System.out.println("|Congratulations on reaching level 10! You can now choose a profession.|");
 	        System.out.println("------------------------------------------------------------------------");
 
@@ -114,10 +121,18 @@ public class PlayerCharacter extends PersonnageDeBase {
 	                    break;
 	            }
 	        }
+	        } catch (InputMismatchException e) {
+	            System.err.println("Invalid input. Please enter a numeric value.");
+	            scanner.next(); // Clear the invalid input
+	            selectProfession(); // Retry the profession selection
+	        } catch (NoSuchElementException e) {
+	            System.err.println("Input operation was cancelled unexpectedly.");
+	        }
 	  }
 	  
 	  /**
-	   * Handles leveling up of the character.
+	   * Handles the leveling up process for the character.
+	   * This method updates the character's stats such as HP, MP, and attack based on the new level.
 	   */
 	  private void levelUp() {
 	        this.currentLevel++;

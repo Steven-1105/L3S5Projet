@@ -78,51 +78,111 @@ public class PersonnageDeBase {
 	}
 	  
 	//Protected methods for changing attributes, which can be overridden by subclasses if necessary
+	/**
+     * Changes the character's HP by the specified amount.
+     *
+     * @param amount The amount by which to change the HP.
+     */
 	protected void changeHP(double amount) {
 	    this.hp += amount;
 	}
 	
+	/**
+     * Changes the character's MP by the specified amount.
+     *
+     * @param amount The amount by which to change the MP.
+     */
 	protected void changeMP(double amount) {
 	    this.mp += amount;
 	}
 	
+	/**
+     * Changes the character's attack power by the specified amount.
+     *
+     * @param amount The amount by which to change the attack power.
+     */
 	protected void changeAttack(double amount) {
 	    this.attack += amount;
 	}
   
 	//**************Getters and setters**************
+	/**
+     * Gets the name of the character.
+     *
+     * @return The name of the character.
+     */
 	public String getName() {
 		return name;
 	}
-
+	
+	/**
+     * Sets the name of the character.
+     *
+     * @param name The new name of the character.
+     */
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
+	/**
+     * Gets the current health points (HP) of the character.
+     *
+     * @return The current HP of the character.
+     */
 	public int getHp() {
 	    return hp;
 	}
 	
+	/**
+     * Sets the current health points (HP) of the character.
+     *
+     * @param hp The new HP value.
+     */
 	public void setHp(int hp) {
 		this.hp = hp;
 	}
 	
+	/**
+     * Gets the current mana points (MP) of the character.
+     *
+     * @return The current MP of the character.
+     */
 	public int getMp() {
 		return mp;
 	}
 	
+	/**
+     * Sets the current mana points (MP) of the character.
+     *
+     * @param mp The new MP value.
+     */
 	public void setMp(int mp) {
 		this.mp = mp;
 	}
 	
+	/**
+     * Gets the attack power of the character.
+     *
+     * @return The attack power of the character.
+     */
 	public int getAttack() {
 	    return attack;
 	}
 	
+	/**
+     * Sets the attack power of the character.
+     *
+     * @param attack The new attack power value.
+     */
 	public void setAttack(int attack) {
 	    this.attack = attack;
 	}
 	
+	/**
+     * Gets the race of the character.
+     *
+     * @return The race of the character.
+     */
 	public Race getRace() {
 	    return race;
 	}  

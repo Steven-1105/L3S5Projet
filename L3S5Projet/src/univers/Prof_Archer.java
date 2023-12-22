@@ -47,13 +47,16 @@ public class Prof_Archer implements Profession{
 		  int skillCost = 50;
 		  int damage = 150;
   	
-		  if (player.getMp() >= skillCost) {
+		  try { if (player.getMp() >= skillCost) {
 			  player.setMp(player.getMp() - skillCost);
 			  System.out.println(player.name + " cost " + skillCost + "MP to use the skill, you have now " + player.getMp() + "MP.");
 			  enemy.setHp(enemy.getHp() - damage);
 			  System.out.println(player.name + " uses Arrow Storm and deals " + damage + " damage to " + enemy.getName() + ", and his remaining HP:" + enemy.getHp());
 		  } else {
-			  System.out.println("Not enough MP to use Arrow Storm.");
+			  throw new InsufficientMpException("Not enough MP to use Arrow Storm.");
+		  }
+		  }catch (InsufficientMpException e) {
+		        System.out.println("Exception: " + e.getMessage());
 		  }
 	   }
 	  /**
@@ -64,14 +67,17 @@ public class Prof_Archer implements Profession{
 	  public void penetrateWeakness(PlayerCharacter player) {
 	      int skillCost = 100; 
 	      int attackIncreasing = 150; // attack power increase
-	
-	      if (player.getMp() >= skillCost) {
+	     
+	      try {if (player.getMp() >= skillCost) {
 	    	  player.setMp(player.getMp() - skillCost); // MP reduction
 	    	  System.out.println(player.name + " cost " + skillCost + "MP to use the skill, you have now " + player.getMp() + "MP.");
 	    	  player.setAttack(player.getAttack() + attackIncreasing); // Increased attack power
 	          System.out.println("Using Penetrate Weakness, increases" + attackIncreasing + " Points of Attack!");
 	      } else {
-	          System.out.println("Not enough MP to use Penetrate Weakness.");
+	    	  throw new InsufficientMpException("Not enough MP to use Penetrate Weakness.");
+	      }
+	      } catch (InsufficientMpException e) {
+	          System.out.println("Exception: " + e.getMessage());
 	      }
 	  }
   
@@ -81,8 +87,8 @@ public class Prof_Archer implements Profession{
 	   */
 	  @Override
 	  public void displaySkills() {
-		  System.out.println("1.Arrow Storm (Cost 50 MP)");
-		  System.out.println("2.Penetrate Weakness (Cost 100 MP)");
+		  System.out.println("1.Arrow Storm (Cost 50 MP, demage: 150)");
+		  System.out.println("2.Penetrate Weakness (Cost 100 MP, increase: 150 attack)");
 	  }
 	  
 	  /**

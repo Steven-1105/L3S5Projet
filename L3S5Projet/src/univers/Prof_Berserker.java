@@ -51,14 +51,17 @@ public class Prof_Berserker implements Profession {
 		  int skillCost = 250;
 		  int damage = 350;
 	  	
-	      if (player.getHp() >= skillCost) {
+	      try {if (player.getHp() >= skillCost) {
 	      	  player.setHp(player.getHp() - skillCost); // HP reduction
 	      	  System.out.println(player.name + " cost " + skillCost + "HP to use the skill, you have now " + player.getHp() + "HP.");
 	          enemy.setHp(enemy.getHp() - damage);
 	          System.out.println(player.name + " uses Sacrifice Attack and deals " + damage + " damage to " + enemy.getName() + ", and his remaining HP:" + enemy.getHp());
 	      } else {
-	          System.out.println("Not enough Hp to use Sacrifice Attack.");
-	      }
+			  throw new InsufficientHpException("Not enough HP to use Sacrifice Attack.");
+		  }
+		  }catch (InsufficientHpException e) {
+		        System.out.println("Exception: " + e.getMessage());
+		  }
 	  }
 	  
 	 /**
@@ -69,9 +72,9 @@ public class Prof_Berserker implements Profession {
 	  public void rampage(PlayerCharacter player) {
 	      int skillCost = 100; 
 	      int attackIncreasing = 100; //attack power increase
-	      int hpIncreasing = 200;
+	      int hpIncreasing = 200; //HP increase
 	
-	      if (player.getMp() >= skillCost) {
+	      try {if (player.getMp() >= skillCost) {
 	      	player.setMp(player.getMp() - skillCost); // MP reduction
 	      	System.out.println(player.name + " cost " + skillCost + "MP to use the skill, you have now " + player.getMp() + "MP.");
 	      	player.setAttack(player.getAttack() + attackIncreasing); // Attack Increase
@@ -79,8 +82,11 @@ public class Prof_Berserker implements Profession {
 	        System.out.println("Using Rampage, increases" + attackIncreasing + " Points of Attack!");
 	        System.out.println("Using Rampage, increases" + hpIncreasing + " Points of HP!");
 	      } else {
-	          System.out.println("Not enough MP to use Rampage.");
-	      }
+			  throw new InsufficientMpException("Not enough MP to use Rampage.");
+		  }
+		  }catch (InsufficientMpException e) {
+		        System.out.println("Exception: " + e.getMessage());
+		  }
 	  }
 	  
 	  //Skills list and utilization
@@ -89,8 +95,8 @@ public class Prof_Berserker implements Profession {
 	  */
 	  @Override
 	  public void displaySkills() {
-		  System.out.println("1.Sacrifice Attack (Cost 250 HP)");
-		  System.out.println("2.Rampage (Cost 100 MP)");
+		  System.out.println("1.Sacrifice Attack (Cost 250 HP, damage: 350)");
+		  System.out.println("2.Rampage (Cost 100 MP, increase: 100 attack and 200 HP)");
 	  }
 	  
 	 /**

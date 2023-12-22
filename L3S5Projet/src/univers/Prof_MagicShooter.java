@@ -48,14 +48,17 @@ public class Prof_MagicShooter implements Profession{
 		  int skillCost = 100;
 		  int damage = 250;
 	  	
-	      if (player.getMp() >= skillCost) {
+	      try {if (player.getMp() >= skillCost) {
 	    	  player.setMp(player.getMp() - skillCost); // MP reduction
 	    	  System.out.println(player.name + " cost " + skillCost + "MP to use the skill, you have now " + player.getMp() + "MP.");
 	          enemy.setHp(enemy.getHp() - damage);
 	          System.out.println(player.name + " uses Fireball and deals " + damage + " damage to " + enemy.getName() + ", and his remaining HP:" + enemy.getHp());
 	      } else {
-	          System.out.println("Not enough MP to use Fireball.");
-	      }
+			  throw new InsufficientMpException("Not enough MP to use Fireball.");
+		  }
+		  }catch (InsufficientMpException e) {
+		        System.out.println("Exception: " + e.getMessage());
+		  }
 	  }
 	  
 	 /**
@@ -65,17 +68,20 @@ public class Prof_MagicShooter implements Profession{
 	  * @param enemy  The enemy character being attacked.
 	  */
 	  public void thunderStorm(PlayerCharacter player, Enemy enemy) {
-	      int skillCost = 300; 
+	      int skillCost = 200; 
 	      int damage = 600;
 	
-	      if (player.getMp() >= skillCost) {
+	      try {if (player.getMp() >= skillCost) {
 	    	  player.setMp(player.getMp() - skillCost); // MP reduction
 	    	  System.out.println(player.name + " cost " + skillCost + "MP to use the skill, you have now " + player.getMp() + "MP.");
 	    	  enemy.setHp(enemy.getHp() - damage);
 	    	  System.out.println(player.name + " uses ThunderStorm and deals " + damage + " damage to " + enemy.getName() + ", and his remaining HP:" + enemy.getHp());
 	      } else {
-	          System.out.println("Not enough MP to use ThunderStorm.");
-	      }
+			  throw new InsufficientMpException("Not enough MP to use ThunderStorm.");
+		  }
+		  }catch (InsufficientMpException e) {
+		        System.out.println("Exception: " + e.getMessage());
+		  }
 	  }
 	  
 	  //Skills list and utilization
@@ -84,8 +90,8 @@ public class Prof_MagicShooter implements Profession{
 	  */
 	  @Override
 	  public void displaySkills() {
-		  System.out.println("1.Fireball (Cost 100 MP)");
-		  System.out.println("2.ThunderStorm (Cost 300 MP)");
+		  System.out.println("1.Fireball (Cost 100 MP, damage: 250)");
+		  System.out.println("2.ThunderStorm (Cost 200 MP, damage: 600)");
 	  }
 	  
 	 /**
