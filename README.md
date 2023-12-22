@@ -29,7 +29,3 @@ Dans le dossier `Rapport`, vous trouverez un lien hypertexte GitHub. Ce lien vou
 - Ouvrez Eclipse et trouvez le projet dans le fichier `Main.java`.
 - Dans l'interface Eclipse, cliquez sur **Run As** puis sélectionnez **Java Application**.
 - Une fois l'exécution réussie, interagissez avec le projet via la console.
-
----
-
-Ce formatage utilise les capacités de Markdown pour structurer le contenu, ce qui le rend plus lisible et facile à suivre. Vous pouvez ajuster les instructions et les liens selon vos besoins spécifiques.
