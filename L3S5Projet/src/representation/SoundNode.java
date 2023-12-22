@@ -30,17 +30,17 @@ public class SoundNode extends NodeDecorator {
      */
     @Override
     public void display() {
-        super.display(); // 显示被装饰节点的内容
-        playSound(soundFilePath); // 播放音乐
+        super.display(); // Display the description of the decorated node
+        playSound(soundFilePath); // Play music
     }
 
     @Override
     public Node chooseNext() {
-        // 播放音乐
+    	// Play music
         Bgm.playMusic(soundFilePath);
-        // 进入下一个节点
+        // Go to the next node
         Node nextNode = wrappedNode.chooseNext();
-        // 停止音乐
+        // Stop the music
         Bgm.stopMusic();
         return nextNode;
     }
