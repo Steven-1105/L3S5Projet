@@ -13,11 +13,12 @@ import univers.PlayerCharacter;
 import univers.Race;
 
 /**
- * The Game class encapsulates all the elements and logic required to run the game.
+ * The Game class encapsulates all the elements and logic required to run the text-based adventure game.
+ * It manages game initialization, character creation, and the main game loop.
  */
 public class Game {
 	// Attributes
-	private transient static Scanner scanner = new Scanner(System.in);
+	transient static Scanner scanner = new Scanner(System.in);
     private transient GameFrame gameFrame;
     private transient PlayerCharacter player;
     // Constructor
@@ -97,6 +98,7 @@ public class Game {
     
     /**
      * Initializes the game by creating nodes and setting up the game structure.
+     * It creates enemies, game nodes, and connects them to form the game narrative.
      * 
      * @param player     The PlayerCharacter who will participate in the game.
      * @param gameFrame  The GameFrame where the game will be displayed.
@@ -159,11 +161,11 @@ public class Game {
     
     
     /**
-     * Decorates a node with image and misic(exclusif TerminalNode because it's the end of the game)and connects it with other nodes in the game structure.
+     * Decorates a node with images and music and connects it with other nodes in the game structure.
      * 
      * @param node       The node to be decorated.
      * @param gameFrame  The GameFrame where the game will be displayed.
-     * @return The decorated node.
+     * @return The decorated node, enhanced with visual and audio features.
      */
     private static Node decorateNode(Node node, GameFrame gameFrame) {
         if (node == null) {
@@ -194,7 +196,7 @@ public class Game {
     
     
     /**
-     * Retrieves the image path associated with a specific node based on its ID.
+     * Retrieves the image path associated with a specific node based on its type or identifier.
      * 
      * @param node The node whose image path is to be retrieved.
      * @return The image path as a String.
@@ -230,7 +232,7 @@ public class Game {
     }
     
     /**
-     * Retrieves the sound path associated with a specific TerminalNode based on its ID.
+     * Retrieves the sound path associated with a specific TerminalNode based on its type or identifier.
      * 
      * @param node The node whose sound path is to be retrieved.
      * @return The sound path as a String.
@@ -251,6 +253,7 @@ public class Game {
 
     /**
      * Starts the game loop, displaying nodes and navigating through the game structure based on player choices.
+     * It updates the game frame with images and handles the progression between different nodes.
      * 
      * @param startNode  The starting node of the game.
      * @param gameFrame  The GameFrame where the game will be displayed.
@@ -288,6 +291,11 @@ public class Game {
         currentNode.display();
     }
     
+    /**
+     * Saves the current game state to a file, including the player's character and current node.
+     * 
+     * @param currentNode The current node in the game from which the player will continue when the game is loaded.
+     */
     private void saveGame(Node currentNode) {
         if (player != null) {
             GameSaveState gameState = new GameSaveState(player, currentNode);
@@ -297,12 +305,23 @@ public class Game {
         } 
     }
     
+    /**
+     * Checks whether the player wants to pause the game.
+     * 
+     * @return true if the player chooses to pause, false otherwise.
+     */
     private boolean checkForPause() {
         System.out.println("Press 'P' to pause. Press any other key to continue. (You can save the game in the pause menu)");
         String input = scanner.nextLine();
         return input.equalsIgnoreCase("P");
     }
     
+    /**
+     * Displays a pause menu allowing the player to save the game or continue playing.
+     * 
+     * @param currentNode The current node in the game, used for saving the game state.
+     * @return true if the player chooses to quit, false otherwise.
+     */
     private boolean showPauseMenu(Node currentNode) {
         System.out.println("Press 'S' to save game. Press any other key to continue.");
         String input = scanner.nextLine();
@@ -321,37 +340,98 @@ public class Game {
         return false;
     }
     
+    /**
+     * Loads a previously saved game state from a file, including the player's character and last node.
+     * It then continues the game from the saved state.
+     */
     public void loadGame() {
-        // 从文件中加载保存的游戏状态
+    	if (Game.scanner == null) {
+            Game.scanner = new Scanner(System.in);
+        }
+    	// Load saved game state from file
     	GameSaveState gameState = GameSave.loadGame("savegame.ser");
         if (gameState != null) {
+        	// Restore player information
             player = gameState.getPlayer();
-            Node ancientNode = gameState.getCurrentNode();
-
-            // 确保 gameFrame 被正确设置
-            if (gameFrame == null) {
-                gameFrame = new GameFrame();
-                gameFrame.launch();
-            }
-            
-         // 确保所有节点都有正确的 gameFrame 引用
-            if (gameFrame != null) {
-            ancientNode = decorateNode(ancientNode, gameFrame);
+            System.out.println("Welcome back, " + player.getName() + "!");
+            System.out.println("You are a " + player.getRace() + " with " + player.getHp() + " health.");
+            // If there are other player attributes that need to be restored, do them here as well
         } else {
-            throw new IllegalStateException("GameFrame is null after attempting to initialize in loadGame.");
-        }
-
-            System.out.println("Game loaded successfully.");
-            
-            // 更新背景图像
-            if (ancientNode instanceof ImageNode) {
-                gameFrame.updateBackground(((ImageNode) ancientNode).getImage());
-            }
-
-            startGame(ancientNode, gameFrame);
-        } else {
-            System.out.println("Failed to load the game. Starting a new game instead.");
+        	System.out.println("No player information found in save file. Starting a new game.");
             start();
+            return;
         }
+        
+        	// Restore the current node
+        	Node ancientNode = gameState.getCurrentNode();
+        	if (ancientNode != null) {
+        		// Make sure the gameFrame is set correctly
+        		if (gameFrame == null) {
+        			gameFrame = new GameFrame();
+        			gameFrame.launch();
+        		}
+        		// Creating enemies
+                Enemy boss = new Boss("Boss", 100, 20);
+                Enemy dragon = new Boss("Evil Dragon", 1000, 175);
+
+                // Create game nodes
+                Node startNode = new InnerNode("You're a brave man, and now you're in the village.");
+                DecisionNode decisionNode = new DecisionNode("Are you going to explore outside? \n1. yes, I'm going. \n2. No, I'm not ready yet.");
+                TerminalNode endNodeFailure = new TerminalNode("You decide to stay in the village and become an ordinary villager.");
+                ChanceNode chanceNode = new ChanceNode("You were brave enough to walk out of the village. \nOh! There's a mysterious canyon ahead.");
+                DecisionNode canyonDecisionNode = new DecisionNode("Are you going into the canyon? \n1. yes, I'm going in. \n2. no, I'm going back to the village.");
+                BattleNode bossBattleNode = new BattleNode("You've encountered a boss raid in the canyon! A fierce battle begins!", boss, player);
+                
+                // Create a decision node after winning a boss fight
+                DecisionNode dragonDecisionNode = new DecisionNode("You have encountered the evil dragon that guards the canyon, are you going to challenge it? \n1. Yes, I'm going to challenge it. \n2. No, I'm going back to the village.");
+
+                // Create a node to fight the dragon
+                BattleNode dragonBattleNode = new BattleNode("You face the mighty dragon!", dragon, player);
+                
+                InnerNode endNodeBossFightWin = new InnerNode("After a fierce battle, you defeat the boss and gain experience."){
+                    @Override
+                    public Node chooseNext() {
+                    	display();
+                        System.out.println("The character is being upgraded...");
+                        player.gainExperience(5400); // Upgrade to level 10
+                        return dragonDecisionNode;
+                    }
+                };
+                
+                TerminalNode endNodeBossFightLose = new TerminalNode("You've been defeated by the Boss and are permanently sleeping in the canyon.");
+                TerminalNode endNodeReturn = new TerminalNode("You didn't enter the canyon, you went straight back to the village.");
+                TerminalNode victoryNode = new TerminalNode("You defeated the evil dragon and became a legendary hero!");
+                TerminalNode defeatNode = new TerminalNode("Though you were defeated by the evil dragon, your courage will be celebrated by future generations.");
+                
+
+                // Setting up connections between nodes 
+                ((InnerNode) startNode).addNextNode(decisionNode);
+                decisionNode.addNextNode(chanceNode);
+                decisionNode.addNextNode(endNodeFailure);
+                chanceNode.addNextNode(canyonDecisionNode);
+                chanceNode.addNextNode(dragonDecisionNode);
+                canyonDecisionNode.addNextNode(bossBattleNode);
+                canyonDecisionNode.addNextNode(endNodeReturn);
+                bossBattleNode.addNextNode(endNodeBossFightWin);
+                bossBattleNode.addNextNode(endNodeBossFightLose);
+                dragonDecisionNode.addNextNode(dragonBattleNode);
+                dragonDecisionNode.addNextNode(endNodeReturn);
+                dragonBattleNode.addNextNode(victoryNode);  // Node after victory
+                dragonBattleNode.addNextNode(defeatNode); // Node after failure
+        		
+        		
+                // Ensure that all nodes have the correct gameFrame reference
+        		ancientNode = decorateNode(dragonDecisionNode, gameFrame);
+        		// Update the background image
+        		if (ancientNode instanceof ImageNode) {
+//        			System.out.println("ancientNode est bien un ImageNode");
+        			gameFrame.updateBackground(((ImageNode) ancientNode).getImage());
+        		}
+        		// Continue the game
+        		startGame(ancientNode, gameFrame);
+        	} else {
+        		System.out.println("No game position found in save file. Starting a new game.");
+        		start();
+        	}
     }
 }

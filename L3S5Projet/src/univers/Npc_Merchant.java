@@ -1,5 +1,8 @@
 package univers;
 
+/**
+ * Represents a merchant NPC (Non-Player Character) in the game, capable of greeting, interaction, and trading.
+ */
 public class Npc_Merchant extends BaseDeNpc {
 	public Npc_Merchant (String name, String description) {
 		super(name, description);
@@ -10,12 +13,17 @@ public class Npc_Merchant extends BaseDeNpc {
 		return "Name: " + getName() + "\nDescription: " + getDescription();
 	}
 	
+	/**
+     * Greets the player with a standard message.
+     */
 	@Override
 	public void greeting() {
 	    System.out.println("Greeting traveler!");
 	}
 
-	// communicate
+	/**
+     * Interacts with the player by providing a context-specific message.
+     */
 	@Override
 	public void interact() {
 		// context   
@@ -24,7 +32,9 @@ public class Npc_Merchant extends BaseDeNpc {
 
 	// task
 
-	// trade
+	/**
+     * Initiates trade with the player.
+     */
 	@Override
 	public void trade() {
 	    // context

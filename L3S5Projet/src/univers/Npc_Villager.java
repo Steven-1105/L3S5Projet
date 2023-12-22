@@ -1,5 +1,8 @@
 package univers;
 
+/**
+ * Represents the villager NPC (Non-Player Character) in the game, capable of greeting, interaction, and trading.
+ */
 public class Npc_Villager extends BaseDeNpc{
 	public Npc_Villager (String name, String description) {
 		super(name, description);
@@ -10,21 +13,28 @@ public class Npc_Villager extends BaseDeNpc{
 	    return "Name: " + getName() + "\nDescription: " + getDescription();
 	}
 
+	/**
+     * Greets the player with a jovial message.
+     */
 	@Override
 	public void greeting() {
 	    System.out.println("Gutentag young travaler");
 	}
 
-	// Communication
+	/**
+     * Interacts with the player by providing a context-specific message.
+     */
 	@Override
 	public void interact() {
 	    // Context  
 	    System.out.println(this.getName() + " says: 'Hello, traveler!'");
 	}
 
-	// Mission
+	// Task
 
-	// Trading
+	/**
+     * Initiates trade with the player.
+     */
 	@Override
 	public void trade() {
 	    // Context

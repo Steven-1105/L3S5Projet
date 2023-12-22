@@ -35,6 +35,9 @@ public class DecisionNode extends InnerNode {
      */
     @Override
     public Node chooseNext() {
+    	if (this.scanner == null) {
+            this.scanner = new Scanner(System.in);
+        }
         display(); // Show the decision text to the player
         
         if (nextNodes.isEmpty()) {
