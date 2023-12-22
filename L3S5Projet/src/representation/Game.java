@@ -174,6 +174,7 @@ public class Game {
         if (node instanceof TerminalNode) {
             String soundPath = getSoundPathForNode(node); // Get the music path corresponding to the node
             decoratedNode = new SoundNode(decoratedNode, soundPath); // Decorate nodes with music
+            decoratedNode = new ImageNode(node, imagePath, gameFrame); // Decorate nodes with images
             // System.out.println("SoundNode Decorated: " + node.getDescription() + " with sound " + soundPath); // Debugging information
         }
         
