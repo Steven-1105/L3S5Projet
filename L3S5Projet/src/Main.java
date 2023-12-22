@@ -1,11 +1,5 @@
-import java.util.Scanner;
-
 import gui.GameFrame;
 import representation.*;
-import univers.PlayerCharacter;
-import univers.Race;
-import univers.Boss;
-import univers.Enemy;
 
 /**
  * The main class to launch the text-based game.

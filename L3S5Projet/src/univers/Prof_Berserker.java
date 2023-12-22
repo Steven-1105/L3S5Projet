@@ -46,6 +46,7 @@ public class Prof_Berserker implements Profession {
 	  *
 	  * @param player The player character using the skill.
 	  * @param enemy  The enemy character being attacked.
+	  * @throws InsufficientHpException If there are not enough HP to use skill.
 	  */
 	  public void sacrificeAttack(PlayerCharacter player, Enemy enemy) {
 		  int skillCost = 250;
@@ -68,6 +69,7 @@ public class Prof_Berserker implements Profession {
 	  * Performs the Rampage skill action, reducing MP and increasing the character's attack power and HP.
 	  *
 	  * @param player The player character using the skill.
+	  * @throws InsufficientMpException If there are not enough MP to use skill.
 	  */
 	  public void rampage(PlayerCharacter player) {
 	      int skillCost = 100; 

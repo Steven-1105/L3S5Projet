@@ -1,4 +1,6 @@
 package univers;
+
+
 /**
  * The Archer profession class that implements the {@link Profession} interface.
  * This class provides methods for modifying health points (HP), attack power, and mana points (MP) for an Archer character,
@@ -42,6 +44,7 @@ public class Prof_Archer implements Profession{
 	   *
 	   * @param player The player character using the skill.
 	   * @param enemy  The enemy character being attacked.
+	   * @throws InsufficientMpException If there are not enough MP to use skill.
 	   */
 	  public void arrowStorm(PlayerCharacter player, Enemy enemy) {
 		  int skillCost = 50;
@@ -63,6 +66,7 @@ public class Prof_Archer implements Profession{
 	   * Performs the Penetrate Weakness skill action, reducing MP and increasing the character's attack power.
 	   *
 	   * @param player The player character using the skill.
+	   * @throws InsufficientMpException If there are not enough MP to use skill.
 	   */
 	  public void penetrateWeakness(PlayerCharacter player) {
 	      int skillCost = 100; 

@@ -43,6 +43,7 @@ public class Prof_MagicShooter implements Profession{
 	  *
 	  * @param player The player character using the skill.
 	  * @param enemy  The enemy character being attacked.
+	  * @throws InsufficientMpException If there are not enough MP to use skill.
 	  */
 	  public void fireball(PlayerCharacter player, Enemy enemy) {
 		  int skillCost = 100;
@@ -66,6 +67,7 @@ public class Prof_MagicShooter implements Profession{
 	  *
 	  * @param player The player character using the skill.
 	  * @param enemy  The enemy character being attacked.
+	  * @throws InsufficientMpException If there are not enough MP to use skill.
 	  */
 	  public void thunderStorm(PlayerCharacter player, Enemy enemy) {
 	      int skillCost = 200; 
