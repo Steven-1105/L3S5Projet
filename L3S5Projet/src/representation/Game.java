@@ -102,14 +102,14 @@ public class Game {
     private static Node initializeGame(PlayerCharacter player, GameFrame gameFrame) {
     	// Creating enemies
         Enemy boss = new Boss("Boss", 100, 20);
-        Enemy dragon = new Boss("Evil Dragon", 400, 75);
+        Enemy dragon = new Boss("Evil Dragon", 1000, 175);
 
         // Create game nodes
         Node startNode = new InnerNode("You're a brave man, and now you're in the village.");
         DecisionNode decisionNode = new DecisionNode("Are you going to explore outside? \n1. yes, I'm going. \n2. No, I'm not ready yet.");
         TerminalNode endNodeFailure = new TerminalNode("You decide to stay in the village and become an ordinary villager.");
-        ChanceNode chanceNode = new ChanceNode("You were brave enough to walk out of the village. \n Oh! There's a mysterious canyon ahead.");
-        DecisionNode caveDecisionNode = new DecisionNode("Are you going into the canyon? \n1. yes, I'm going in. \n2. no, I'm going back to the village.");
+        ChanceNode chanceNode = new ChanceNode("You were brave enough to walk out of the village. \nOh! There's a mysterious canyon ahead.");
+        DecisionNode canyonDecisionNode = new DecisionNode("Are you going into the canyon? \n1. yes, I'm going in. \n2. no, I'm going back to the village.");
         BattleNode bossBattleNode = new BattleNode("You've encountered a boss raid in the canyon! A fierce battle begins!", boss, player);
         
         // Create a decision node after winning a boss fight
@@ -138,10 +138,10 @@ public class Game {
         ((InnerNode) startNode).addNextNode(decisionNode);
         decisionNode.addNextNode(chanceNode);
         decisionNode.addNextNode(endNodeFailure);
-        chanceNode.addNextNode(caveDecisionNode);
+        chanceNode.addNextNode(canyonDecisionNode);
         chanceNode.addNextNode(dragonDecisionNode);
-        caveDecisionNode.addNextNode(bossBattleNode);
-        caveDecisionNode.addNextNode(endNodeReturn);
+        canyonDecisionNode.addNextNode(bossBattleNode);
+        canyonDecisionNode.addNextNode(endNodeReturn);
         bossBattleNode.addNextNode(endNodeBossFightWin);
         bossBattleNode.addNextNode(endNodeBossFightLose);
         dragonDecisionNode.addNextNode(dragonBattleNode);
@@ -195,18 +195,23 @@ public class Game {
         case 2:
         case 3:
         case 11:
-        case 12:
-        case 13:
         	return "image/village.png";
+        case 12:
+        	return "image/Hero.png";
+        case 13:	
+        	return "image/dragon_Lose.png";
         case 4:
         case 5:
-        case 6:
+        	return "image/Canyon.png";
         case 9:
+        	return "image/Boss_Win.png";
         case 10:
         	return "image/adventure_start.png";
         case 7:
         case 8:
         	return "image/final_dragon.png";
+        case 6:
+        	return "image/Boss.png";
         default:
         	return "image/start_image.png";
         }
