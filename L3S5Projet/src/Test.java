@@ -16,7 +16,7 @@ public class Test {
      */
 	public static void main(String[] args) {
 		// Ask the user to enter the name of the hero
-		System.out.println("Please enter your character's name：");
+		System.out.println("Please enter your character's name: ");
 		String name = scanner.nextLine();
 	
 		//Selection of race
@@ -45,7 +45,7 @@ public class Test {
 	    int choiceOfRace;
 	
 	    do {
-	    	System.out.println("Please enter your character's race (1：ORC，2：HUMAN，3：ELF)：");
+	    	System.out.println("Please enter your character's race (1: ORC，2: HUMAN，3: ELF)：");
 	    	choiceOfRace = scanner.nextInt();
 	    	scanner.nextLine(); // Clear the newline left-over
 	
