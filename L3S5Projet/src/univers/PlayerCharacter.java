@@ -12,8 +12,8 @@ public class PlayerCharacter extends PersonnageDeBase {
 	  //Attributs
 	  protected int experience;
 	  protected int currentLevel; //currentlevel
-	  protected Profession profession = null; // No profession at the beginning
-	  protected static Scanner scanner = new Scanner(System.in); // create a Scanner object for input
+	  protected transient Profession profession = null; // No profession at the beginning
+	  protected transient static Scanner scanner = new Scanner(System.in); // create a Scanner object for input
 
 	  //Constructeurs
 	  /**

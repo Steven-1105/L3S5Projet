@@ -1,5 +1,7 @@
 package representation;
 
+import java.io.Serializable;
+
 import javax.swing.ImageIcon;
 import gui.GameFrame;
 
@@ -8,16 +10,16 @@ import gui.GameFrame;
  * It wraps around a standard node and associates an image with it,
  * which can be displayed in a GameFrame.
  */
-public class ImageNode extends NodeDecorator {
+public class ImageNode extends NodeDecorator implements Serializable{
     /**
      * The image associated with this node.
      */
-    private ImageIcon image;
+    private transient ImageIcon image;
 
     /**
      * The game frame where the image will be displayed.
      */
-    private GameFrame gameFrame;
+    private transient GameFrame gameFrame;
 
     /**
      * Constructs an ImageNode that wraps around an existing node, adding image capabilities.
@@ -29,6 +31,9 @@ public class ImageNode extends NodeDecorator {
     public ImageNode(Node wrappedNode, String imagePath, GameFrame gameFrame) {
         super(wrappedNode);
         this.image = new ImageIcon(imagePath);
+        if (gameFrame == null) {
+            throw new IllegalArgumentException("GameFrame cannot be null");
+        }
         this.gameFrame = gameFrame;
     }
 
@@ -47,7 +52,11 @@ public class ImageNode extends NodeDecorator {
     @Override
     public void display() {
         // Update the GameFrame's background image.
-        gameFrame.updateBackground(image);
+        if (gameFrame != null) {
+            gameFrame.updateBackground(image);
+        } else {
+            throw new IllegalStateException("GameFrame is null when trying to display ImageNode.");
+        }
         // Then call the display method of the wrapped node.
         super.display();
     }

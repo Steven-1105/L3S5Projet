@@ -1,10 +1,12 @@
 package representation;
+import java.io.Serializable;
+
 /**
  * Represents an abstract Node in the game. It serves as a base for all specific types of nodes
  * within the game's narrative structure.
  */
 
-public abstract class Node implements Event{
+public abstract class Node implements Event,Serializable{
 	// Attributs
 	/** The description of the node. */
 	protected String description;

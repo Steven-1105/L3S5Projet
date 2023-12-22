@@ -1,9 +1,11 @@
 package univers;
 
+import java.io.Serializable;
+
 /**
  * A concrete subclass representing a powerful boss enemy in the game.
  */
-public class Boss extends Enemy {
+public class Boss extends Enemy implements Serializable{
 
     /**
      * Creates a boss enemy with the specified attributes.

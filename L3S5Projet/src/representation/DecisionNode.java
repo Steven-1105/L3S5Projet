@@ -10,7 +10,7 @@ public class DecisionNode extends InnerNode {
     // Attribute
 
     /** Scanner to read user input from the console. */
-    private Scanner scanner;
+    private transient Scanner scanner;
     
     // Constructors
 

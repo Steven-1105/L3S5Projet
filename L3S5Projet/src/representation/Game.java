@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import Save.GameSave;
+import Save.GameSaveState;
 import gui.GameFrame;
 import univers.Boss;
 import univers.Enemy;
@@ -15,8 +17,9 @@ import univers.Race;
  */
 public class Game {
 	// Attributes
-	private static Scanner scanner = new Scanner(System.in);
-    private GameFrame gameFrame;
+	private transient static Scanner scanner = new Scanner(System.in);
+    private transient GameFrame gameFrame;
+    private transient PlayerCharacter player;
     // Constructor
     /**
      * Constructs a Game object with the specified GameFrame.
@@ -33,10 +36,10 @@ public class Game {
      */
     public void start() {
     	// Create a character
-        PlayerCharacter player = createCharacter();
+        this.player = createCharacter();
 
         // Initialize the characters and nodes needed for the game
-        Node startNode = initializeGame(player, gameFrame);
+        Node startNode = initializeGame(this.player, gameFrame);
 
         // Start the game
         startGame(startNode, gameFrame);
@@ -252,7 +255,10 @@ public class Game {
      * @param startNode  The starting node of the game.
      * @param gameFrame  The GameFrame where the game will be displayed.
      */
-    private static void startGame(Node startNode, GameFrame gameFrame) {
+    private void startGame(Node startNode, GameFrame gameFrame) {
+    	if (gameFrame == null) {
+            throw new IllegalStateException("GameFrame is null in startGame.");
+        }
         Node currentNode = startNode;
         currentNode.display(); // Display start node information
         if (currentNode instanceof ImageNode) {
@@ -262,6 +268,9 @@ public class Game {
         while (!(currentNode instanceof TerminalNode)) {
 //        	System.out.println("Current Node: " + currentNode.getDescription());
 //        	System.out.println("Node Type: " + currentNode.getClass().getSimpleName());
+        	if (checkForPause()) {
+                showPauseMenu(currentNode);
+            }
         	// Perform node selection
             currentNode = currentNode.chooseNext();
 //            System.out.println("Switched to Node: " + currentNode.getDescription());
@@ -274,5 +283,66 @@ public class Game {
         // Game over, display end node information
         System.out.print("The game is over: " );
         currentNode.display();
+    }
+    
+    private void saveGame(Node currentNode) {
+        if (player != null) {
+            GameSaveState gameState = new GameSaveState(player, currentNode);
+            GameSave.saveGame("savegame.ser", gameState);
+        } else {
+            System.out.println("No game data to save. Start a new game first.");
+        } 
+    }
+    
+    private boolean checkForPause() {
+        System.out.println("Press 'P' to pause. Press any other key to continue.");
+        String input = scanner.nextLine();
+        return input.equalsIgnoreCase("P");
+    }
+    
+    private boolean showPauseMenu(Node currentNode) {
+        System.out.println("Press 'S' to save game. Press any other key to continue.");
+        String input = scanner.nextLine();
+        if (input.equalsIgnoreCase("P")) {
+            return true;
+        } else if (input.equalsIgnoreCase("S")) {
+            saveGame(currentNode);
+            return true;
+        }
+        return false;
+    }
+    
+    public void loadGame() {
+        // 从文件中加载保存的游戏状态
+    	GameSaveState gameState = GameSave.loadGame("savegame.ser");
+        if (gameState != null) {
+            player = gameState.getPlayer();
+            Node ancientNode = gameState.getCurrentNode();
+
+            // 确保 gameFrame 被正确设置
+            if (gameFrame == null) {
+                gameFrame = new GameFrame();
+                gameFrame.launch();
+            }
+            
+         // 确保所有节点都有正确的 gameFrame 引用
+            if (gameFrame != null) {
+            ancientNode = decorateNode(ancientNode, gameFrame);
+        } else {
+            throw new IllegalStateException("GameFrame is null after attempting to initialize in loadGame.");
+        }
+
+            System.out.println("Game loaded successfully.");
+            
+            // 更新背景图像
+            if (ancientNode instanceof ImageNode) {
+                gameFrame.updateBackground(((ImageNode) ancientNode).getImage());
+            }
+
+            startGame(ancientNode, gameFrame);
+        } else {
+            System.out.println("Failed to load the game. Starting a new game instead.");
+            start();
+        }
     }
 }

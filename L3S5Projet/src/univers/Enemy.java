@@ -1,9 +1,11 @@
 package univers;
 
+import java.io.Serializable;
+
 /**
  * Abstract base class for enemy characters representing hostile entities in the game.
  */
-public abstract class Enemy {
+public abstract class Enemy implements Serializable{
     /**
      * The name of the enemy.
      */

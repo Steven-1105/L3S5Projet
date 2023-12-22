@@ -1,9 +1,11 @@
 package univers;
 
+import java.io.Serializable;
+
 /**
  * An abstract base class representing a non-player character (NPC) in the game.
  */
-public abstract class BaseDeNpc {
+public abstract class BaseDeNpc implements Serializable{
 	protected String name;
 	protected String description;// Description of Npc, like it's a merchant...
 

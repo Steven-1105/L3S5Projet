@@ -8,7 +8,7 @@ public abstract class NodeDecorator extends Node implements Event {
     /**
      * The node that this decorator wraps, adding additional behavior or state.
      */
-    protected Node wrappedNode;
+    protected transient Node wrappedNode;
 
     /**
      * Constructs a NodeDecorator wrapping around an existing node.

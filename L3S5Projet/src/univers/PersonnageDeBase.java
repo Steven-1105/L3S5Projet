@@ -1,11 +1,12 @@
 package univers;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * A base class representing a character in the game.
  */
-public class PersonnageDeBase {
+public class PersonnageDeBase implements Serializable{
 	//Attributs
 	protected String name;
 	protected int hp;

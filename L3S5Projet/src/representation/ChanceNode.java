@@ -10,7 +10,7 @@ public class ChanceNode extends InnerNode {
     // Attribute
 
     /** Random number generator to determine the next node. */
-    private Random random;
+    private transient Random random;
     
     // Constructors
 

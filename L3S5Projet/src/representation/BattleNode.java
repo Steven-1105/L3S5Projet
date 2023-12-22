@@ -14,7 +14,7 @@ public class BattleNode extends InnerNode {
     protected int playerInitialHp;
     protected int playerInitialMp;
     protected int playerInitialAttack;
-    private Scanner scanner;
+    private transient Scanner scanner;
     protected boolean player_result = true;
 
     /**
