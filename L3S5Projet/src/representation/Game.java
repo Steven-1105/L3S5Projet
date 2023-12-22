@@ -149,6 +149,7 @@ public class Game {
         dragonBattleNode.addNextNode(victoryNode);  // Node after victory
         dragonBattleNode.addNextNode(defeatNode); // Node after failure
         
+        
         // Decorate the entire structure
         return decorateNode(startNode, gameFrame);
     }
@@ -165,19 +166,27 @@ public class Game {
         if (node == null) {
             return null; // If the node is null, return null.
         }
-        // 新建一个列表来存储装饰过的节点
-        List<Node> decoratedNodes = new ArrayList<>();
+        
+        String imagePath = getImagePathForNode(node); // 获取节点对应的图片路径
+        Node decoratedNode = new ImageNode(node, imagePath, gameFrame); // 用图片装饰节点
+        
+        // 仅为TerminalNode添加音乐
+        if (node instanceof TerminalNode) {
+            String soundPath = getSoundPathForNode(node); // 获取节点对应的音乐路径
+            decoratedNode = new SoundNode(decoratedNode, soundPath); // 用音乐装饰节点
+            System.out.println("SoundNode Decorated: " + node.getDescription() + " with sound " + soundPath); // 调试信息
+        }
+        
+        // 如果节点是InnerNode，递归装饰它的所有nextNodes
         if (node instanceof InnerNode) {
             InnerNode innerNode = (InnerNode) node;
+            List<Node> decoratedNextNodes = new ArrayList<>();
             for (Node nextNode : innerNode.getNextNodes()) {
-                if (nextNode != null) {
-                    decoratedNodes.add(decorateNode(nextNode, gameFrame)); // 装饰并添加到新列表
-                }
+                decoratedNextNodes.add(decorateNode(nextNode, gameFrame)); // 递归装饰
             }
-            innerNode.setNextNodes(decoratedNodes); // 更新整个列表
+            innerNode.setNextNodes(decoratedNextNodes); // 更新装饰过的nextNodes列表
         }
-        String imagePath = getImagePathForNode(node);
-        return new ImageNode(node, imagePath, gameFrame);
+        return decoratedNode; // 返回装饰过的节点
     }
     
     
@@ -214,6 +223,26 @@ public class Game {
         	return "image/Boss.png";
         default:
         	return "image/start_image.png";
+        }
+    }
+    
+    /**
+     * Retrieves the sound path associated with a specific TerminalNode based on its ID.
+     * 
+     * @param node The node whose sound path is to be retrieved.
+     * @return The sound path as a String.
+     */
+    private static String getSoundPathForNode(Node node) {
+        int nodeId = node.getId();
+        switch(nodeId) {
+            // 根据不同的节点ID返回不同的音乐文件路径
+            case 9:
+            case 12:
+                return "music/Victory_music.mp3"; // 胜利时的音乐
+            case 13:
+                return "music/Defeat_music.mp3"; // 失败时的音乐
+            default:
+                return "music/bgm.mp3"; // 默认音乐
         }
     }
 

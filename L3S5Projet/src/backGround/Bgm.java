@@ -7,12 +7,14 @@ import javazoom.jl.player.Player;
  * A class responsible for playing background music in the game.
  */
 public class Bgm {
+	private static Player player = null; // 使其成为类的成员变量
 	 /**
      * Plays the specified music file.
      *
      * @param filepath The file path of the music to be played.
      */
 	public static void playMusic(String filepath) {
+		stopMusic();// 停止之前的音乐
         try {
             FileInputStream fileInputStream = new FileInputStream(filepath);
             Player player = new Player(fileInputStream);
@@ -30,4 +32,12 @@ public class Bgm {
             e.printStackTrace();
         }
     }
+	
+	public static void stopMusic() {
+        if (player != null) {
+            player.close(); // 停止当前音乐
+            player = null;
+        }
+    }
+	
 }
